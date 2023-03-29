@@ -9,12 +9,6 @@
 // Slick carousel
 @import "vendor/slick/component";
 
-// Nanobar Ajax loading progress bar
-@import "vendor/nanobar/component";
-
-// SweetAlert2 replacement for JavaScript alert/confirmations
-@import "vendor/sweetalert2/component";
-
 
 // Foundation components
 // -----------------------------------------------------------------------------
@@ -162,9 +156,6 @@
 // Preview Cart
 @import "stencil/previewCart/component";
 
-// Maintenance Notice
-@import "stencil/maintenanceNotice/component";
-
 // Cookie Warning
 @import "stencil/cookie/component";
 
@@ -191,3 +182,6 @@
 
 // Categories
 @import "stencil/category/component";
+
+// Contact-Us Form
+@import "stencil/contact/component";
