@@ -1,3 +1,5 @@
+import 'focus-within-polyfill';
+
 import './global/jquery-migrate';
 import './common/select-option-plugin';
 import PageManager from './page-manager';
@@ -9,26 +11,21 @@ import foundation from './global/foundation';
 import quickView from './global/quick-view';
 import cartPreview from './global/cart-preview';
 import privacyCookieNotification from './global/cookieNotification';
-import maintenanceMode from './global/maintenanceMode';
 import carousel from './common/carousel';
-import loadingProgressBar from './global/loading-progress-bar';
 import svgInjector from './global/svg-injector';
-import objectFitImages from './global/object-fit-polyfill';
 
 export default class Global extends PageManager {
     onReady() {
-        cartPreview(this.context.secureBaseUrl, this.context.cartId);
+        const { cartId, secureBaseUrl } = this.context;
+        cartPreview(secureBaseUrl, cartId);
         quickSearch();
-        currencySelector();
+        currencySelector(cartId);
         foundation($(document));
         quickView(this.context);
-        carousel();
+        carousel(this.context);
         menu();
         mobileMenuToggle();
         privacyCookieNotification();
-        maintenanceMode(this.context.maintenanceMode);
-        loadingProgressBar();
         svgInjector();
-        objectFitImages();
     }
 }
