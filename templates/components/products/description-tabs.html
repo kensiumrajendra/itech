@@ -1,0 +1,37 @@
+<div class="productView-description" {{#if settings.data_tag_enabled}} data-event-type="product" {{/if}}>
+    {{{product.description}}}
+    {{#if theme_settings.show_custom_fields_tabs '!==' true}}
+            {{#each product.custom_fields}}
+            <div class="row">
+                <div class="col-lg-4">
+                    <p class="reg">{{name}}:</p>
+                </div>
+                <div class="col-lg-8">
+                    <p>{{{value}}}</p>
+                </div>
+            </div>
+            {{/each}}
+        {{/if}}
+</div>
+
+{{#if product.warranty}}
+    <p class="productView-title">{{lang 'products.warranty'}}</p>
+    <div class="productView-description">
+        {{{product.warranty}}}
+    </div>
+{{/if}}
+{{#all product.custom_fields theme_settings.show_custom_fields_tabs}}
+      <div class="tab-content" id="tab-{{dashcase (lowercase (sanitize theme_settings.pdp-custom-fields-tab-label))}}">
+         <dl class="productView-info">
+            {{#each product.custom_fields}}
+               <dt class="productView-info-name">{{name}}:</dt>
+               <dd class="productView-info-value">{{{value}}}</dd>
+            {{/each}}
+         </dl>
+      </div>
+   {{/all}}
+   {{#all settings.show_product_reviews theme_settings.show_product_reviews_tabs}}
+       <div class="tab-content" id="tab-reviews">
+           {{> components/products/reviews reviews=product.reviews product=product urls=urls}}
+       </div>
+   {{/all}}

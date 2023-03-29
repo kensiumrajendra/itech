@@ -1,0 +1,102 @@
+.body {
+  display: none;
+}
+.navBar.navBar--sub.navBar--account {
+  display: none;
+}
+.modal-close:focus::after, .modal-close:focus::before {
+  display: none;
+}
+#add-to-cart-wrapper {
+    .form-action {
+        margin-top: 0;
+    }
+    .rfq-button-container.rfq-pdp-button-container {
+        display: flex !important;
+    }
+}
+.tingle-modal-box {
+  background-color: stencilColor('container-border-global-color-base') !important;
+}
+.b2b-wrap table tr:hover {
+  background-color: stencilColor('optimizedCheckout-orderSummary-borderColor') !important;
+} 
+#invoice-detail-pending .invoice-detail-pending {
+  background-color: stencilColor('container-border-global-color-base') !important;
+}
+.dropdown-menu.show-action {
+  background-color: stencilColor('optimizedCheckout-orderSummary-borderColor');
+  width: unset!important;
+}
+.cart-info {
+  color: stencilColor('color-textLink--active');
+}
+.file-upload-drop {
+  color: stencilColor('color-textLink--active');
+}
+.card-figcaption-body > button{
+  width: 100%;
+}
+.card-figcaption-body input {
+  vertical-align:middle;
+}
+button#add_to_cart {
+  border-color: stencilColor('button--primary-backgroundColor');
+  background-color: stencilColor('button--primary-backgroundColor');
+}
+#navPages-account {
+    .navPage-subMenu-list {
+        .navPage-subMenu-action.navPages-action {
+            padding-left: 0;
+        }
+    }
+}
+#shopping_list_table .product-options {
+    color: inherit !important;
+}
+
+.productView-options {
+  form[data-cart-item-add] {
+    margin-bottom: 1rem;
+  }
+}
+
+.quote-edit-container, .b2b-wrap {
+  .fa.fa-trash:before {
+    content: "\f1f8" !important;
+  }
+}
+
+
+// changed button size
+a.button.button--small.c00342{
+  margin: 0;
+}
+
+.toolbar-actions.c00345 {
+  margin-bottom: 20px;
+}
+
+input#keyword {
+  height: 32px;
+  width: 101%;
+}
+
+input#userManage-keyword {
+  height: 32px;
+}
+
+input#save_new_user {
+  padding: 14px 40px;
+  margin-right: 20px;
+}
+
+.c00220 .form-field .form-input {
+  height: 36px;
+  border-radius: 4px 0 0 4px;
+  margin-top: 2px;
+}
+
+.rfq-checkout-btn-wrap {
+  margin-bottom: 20px;
+}

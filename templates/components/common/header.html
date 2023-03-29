@@ -1,0 +1,58 @@
+{{#if banners.top}}
+<div class="banners" data-banner-location="top">
+    {{#each (limit banners.top_metadata 1)}}
+    <div class="banner" data-event-type="promotion" data-entity-id="{{this.id}}" data-name="{{this.banner-name}}" data-position="{{this.location}}" data-banner-id="{{this.banner-name}}">
+        <div data-event-type="promotion-click">
+            {{{this.content}}}
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+<div class="top-banner bg-blue d1-none d-801-block pt-3 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p class="mb-0 white reg sm">We support our business-to-business customers with competitive pricing, easy ordering, and fast shipping! Let us know how we can support you, call us at <a href="tel:800-437-4455" class="white">800-437-4455</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<header class="header" id="header" role="banner">
+    <a href="#" class="mobileMenu-toggle" data-mobile-menu-toggle="menu">
+        <span class="mobileMenu-toggleIcon">Toggle menu</span>
+    </a>
+
+    <div class="d1-block d-801-none mobile-nav">
+      {{> components/common/navigation}}
+      <div class="header-logo header-logo--{{theme_settings.logo-position}}">
+          {{> components/common/store-logo}}
+      </div>
+      <div class="navPages-container" id="menu" data-menu>
+          {{> components/common/navigation-menu}}
+      </div>
+    </div>
+
+    <div class="branding d1-none d-801-block">
+      <div class="container d1-none d-801-block">
+        <div class="row d-flex align-items-center">
+          <div class="col-sm-4 col-md-3 col-lg-3 col-xl-4 logo">
+            {{> components/common/store-logo}}
+          </div>
+          <div class="col-md-3 col-lg-4">
+            {{> components/common/quick-search}}
+          </div>
+          <div class="col-sm-3 col-md-6 col-lg-5 col-xl-4">
+            {{> components/common/navigation}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-top">
+      <div class="navPages-container container" id="menu" data-menu>
+          {{> components/common/navigation-menu}}
+      </div>
+    </div>
+</header>
+
+{{{region name="header_bottom"}}}

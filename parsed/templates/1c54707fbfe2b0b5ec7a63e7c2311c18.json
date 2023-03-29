@@ -1,0 +1,3 @@
+{
+  "components/four13/price": "{{!-- Custom price component --}}\n<div class=\"price-section\">\n    {{!--\n        The identifier for the product in Acumatica is referred to as Inventory ID. \n        In BigCommerce, it is the SKU. We use `data-product-custom-price` here as\n        the selector for the custom price components to replace with the fetched price.\n    --}}\n    <span class=\"price\" data-inventory-id=\"{{product_sku}}\"{{#if product_id}} data-product-id-for-fixing=\"{{product_id}}\"{{/if}} data-product-custom-price>\n        Loading...\n    </span>\n</div>\n"
+}

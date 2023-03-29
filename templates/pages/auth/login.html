@@ -1,0 +1,64 @@
+{{#partial "page"}}
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+<div class="container pt-2">
+    {{#if forms.login.error}}
+        {{> components/common/alert-error forms.login.error}}
+    {{/if}}
+    {{#if forms.login.success}}
+        {{> components/common/alert-success forms.login.success}}
+    {{/if}}
+    <div class="row pb-120">
+        <div class="col-md-6">
+            <h1 class="mb-0 h2">Existing Customer Login</h1>
+            <form class="login-form form mt-3 pr-0 pl-0" action="{{urls.auth.check_login}}" method="post">
+                {{inject 'useValidEmail' (lang 'forms.validate.common.email_address')}}
+                {{inject 'enterPass' (lang 'forms.validate.common.password')}}
+                <div class="form-field">
+                    <label class="form-label" for="login_email">{{lang 'login.field_email'}}</label>
+                    <input class="form-input" name="login_email" id="login_email" type="email">
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="login_pass">{{lang 'login.field_password'}}</label>
+                    <input class="form-input" id="login_pass" type="password" name="login_pass" autocomplete="off">
+                </div>
+                <div class="form-actions">
+                    <input type="submit" class="button button--primary mb-3" value="{{lang 'login.submit_value' }}">
+                    <a class="forgot-password pl-0" href="{{urls.auth.forgot_password}}">{{lang 'login.forgot_password' }}</a>
+                </div>
+            </form>
+            {{#if settings.account_creation_enabled}}
+                <div class="new-customer">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title">{{lang 'login.new_customer.heading' }}</h2>
+                        </div>
+                        <div class="panel-body">
+                            <p class="new-customer-intro">{{lang 'login.new_customer.intro' }}</p>
+                            <ul class="new-customer-fact-list">
+                                <li class="new-customer-fact">{{lang 'login.new_customer.fact1' }}</li>
+                                <li class="new-customer-fact">{{lang 'login.new_customer.fact2' }}</li>
+                                <li class="new-customer-fact">{{lang 'login.new_customer.fact3' }}</li>
+                                <li class="new-customer-fact">{{lang 'login.new_customer.fact4' }}</li>
+                                <li class="new-customer-fact">{{lang 'login.new_customer.fact5' }}</li>
+                            </ul>
+                            <a href="{{urls.auth.create_account}}"><button class="button button--primary">{{lang 'login.new_customer.create_account' }}</button></a>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+        <div class="col-md-6">
+            <div class="bg-blue pt-3 pb-3">
+                <h3 class="text-center white mb-0 tu">Become a Customer</h3>
+            </div>
+            <div class="bg-light-grey p-4">
+              <div class="pipedriveWebForms" data-pd-webforms="https://webforms.pipedrive.com/f/6zmKpSAuO9lm1KmQhGEAIGFfPnKFepb76L3jrieTGYfUib9b91eGXfRc9VPOJe4OLF">
+                <script type="text/javascript" src="https://webforms.pipedrive.com/f/loader"></script>
+              </div>
+              <p class="sm mt-2">DDP is a business-to-business wholesale medical supplier and does not sell directly to consumers.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> layout/base}}

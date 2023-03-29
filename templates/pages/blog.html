@@ -1,0 +1,45 @@
+---
+blog:
+    posts:
+        limit: 5
+        pages: 3
+        summary: 200
+---
+{{#partial "page"}}
+
+<main class="blog-template">
+    <div class="hero pt-120 pb-120">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 offset-lg-1 text-center">
+            <h4 class="red b">News</h4>
+            <h1>The Latest DDP News</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="image-separator">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="img border-radius" style="background-image: url(https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/ddp-notepad-wholesale-medical-supplies.jpg?t=1597942271)">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="container pt-120 pb-120">
+    <div class="row">
+      <div class="col-lg-10 offset-lg-1">
+        {{#each blog.posts}}
+            {{> components/blog/post post=this}}
+        {{/each}}
+
+        {{> components/common/paginator pagination.blog}}
+      </div>
+    </div>
+  </div>
+</main>
+
+{{/partial}}
+{{> layout/base}}
+

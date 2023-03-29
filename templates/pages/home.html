@@ -1,0 +1,319 @@
+---
+products:
+    new:
+        limit: {{theme_settings.homepage_new_products_count}}
+    featured:
+        limit: {{theme_settings.homepage_featured_products_count}}
+    top_sellers:
+        limit: {{theme_settings.homepage_top_products_count}}
+carousel: {{theme_settings.homepage_show_carousel}}
+blog:
+    recent_posts:
+        limit: 3
+---
+{{#partial "hero"}}
+    {{{reg mb-0ion name="home_below_menu"}}}
+    {{#if carousel}}
+        {{> components/carousel arrows=theme_settings.homepage_show_carousel_arrows}}
+    {{/if}}
+    {{{reg mb-0ion name="home_below_carousel"}}}
+{{/partial}}
+
+{{#partial "page"}}
+
+    {{#each shipping_messages}}
+        {{> components/common/alert-info message}}
+    {{/each}}
+    
+<div class="main full">
+    <div class="featured-categories pt-5 pb-5 text-center bg-light-grey">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 offset-lg-1">
+            <h2 class="mb-0">Shop Our Family of Medical Supplies</h2>
+          </div>
+        </div>
+        <div class="row mt-4 mb-4">
+          <div class="col-6 col-md-4 col-lg-3">
+            <a class="category d-flex justify-content-center align-items-center" href="/diabetic-supplies/">
+              <div class="content w-100">
+                <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/diabetes-wholesale-supplier.jpg?t=1598839279" class="mb-3" alt="Diabetic Supplies"/>
+                <p class="reg mb-0">Diabetic Supplies</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <a class="category d-flex justify-content-center align-items-center" href="/product-line/physician-office-lab/?sort=alphaasc&page=2">
+              <div class="content w-100">
+                <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/images/stencil/320w/image-manager/352c3cd7-0b98-4384-a027-7207be6d44bf-janua850-49049.12610529708.png?t=1632949686" class="mb-3" alt="Physician Office Supplies"/>
+                <p class="reg mb-0">Physician Office Supplies</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <a class="category d-flex justify-content-center align-items-center" href="/pharmaceuticals/">
+              <div class="content w-100">
+                <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/pharma-wholesale-supplier.jpg?t=1598839281" class="mb-3" alt="Pharmaceuticals and Rx"/>
+                <p class="reg mb-0">Pharmaceuticals and Rx</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <a class="category d-flex justify-content-center align-items-center" href="/urology/">
+              <div class="content w-100">
+                <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/urology-wholesale-medical-supplies.jpg?t=1598839282" class="mb-3" alt="Urology"/>
+                <p class="reg mb-0">Urology</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <a class="category d-flex justify-content-center align-items-center" href="/wound-care/">
+              <div class="content w-100">
+                <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/wound-care-wholesale-supplier.jpg?t=1598839282" class="mb-3" alt="Wound Care"/>
+                <p class="reg mb-0">Wound Care</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <a class="category d-flex justify-content-center align-items-center" href="/syringes-iv-sets/">
+              <div class="content w-100">
+                <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/needles-wholesale-supplier.jpg?t=1598839281" class="mb-3" alt="Needles, Syringes and IV Sets"/>
+                <p class="reg mb-0">Needles, Syringes and IV Products</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <a class="category d-flex justify-content-center align-items-center" href="/ostomy/">
+              <div class="content w-100">
+                <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/ostomy-wholesale-supplier.jpg?t=1598839281" class="mb-3" alt="Ostomy"/>
+                <p class="reg mb-0">Ostomy</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <a class="category d-flex justify-content-center align-items-center" href="/dme/">
+              <div class="content w-100">
+                <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/dme-wholesale-supplier.jpg?t=1598839280" class="mb-3" alt="DME"/>
+                <p class="reg mb-0">DME</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <a href="/shop-all-medical-supplies-and-equipment/" class="button button--primary button--large mt-4">Shop All Categories</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="featured-partners pt-5 pb-5 text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 offset-lg-1">
+            <h2 class="mb-0">Featured Medical Supplier Partners</h2>
+          </div>
+        </div>
+        <div class="row mt-4 mb-4">
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/abbott.jpg?t=1597864189" alt="Abbott"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/bard.logo.jpg?t=1597864464" alt="Bard"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/bd-new.jpg?t=1597865372" alt="BD"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/coloplast.logo.png?t=1597864516" alt="Coloplast"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/convatec.jpg?t=1597865277" alt="ConvaTec"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/dexcom.jpg?t=1597864593" alt="DEXCOM"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/hollister.jpg?t=1597864638" alt="Hollister"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/medtronic.logo.jpg?t=1597864667" alt="Medtronic"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/smithandnephew.jpg?t=1597864708" alt="Smith + Nephew"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/3m.jpg?t=1597864747" alt="3M"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/trividiahealth.jpg?t=1597864792" alt="Trividia Health"/>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="partner d-flex justify-content-center align-items-center">
+              <img src="https://cdn11.bigcommerce.com/s-tvpg77x4p0/product_images/uploaded_images/curemedical.jpg?t=1597864831" alt="Cure"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <a href="/medical-supply-partners/physican-offices-surgical-centers" class="button button--primary button--large mt-4">See All Partners</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="become-a-customer pt-200 pb-200 text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 offset-lg-1">
+            <h2 class="white">Get Access to Thousands of Medical Supplies, Dedicated Support and Fulfillment Services</h2>
+            <a href="/openandaccount/medical-partner-dme-physician-offices-surgical-centers" class="button button--primary button--large mt-4">Become a DDP Customer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="review-slider pt-5 pb-5 text-center bg-light-grey">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 offset-lg-1">
+            <h2>Success Stories from Our Customers</h2>
+          </div>
+        </div>
+        <div class="row mt-3 mt-lg-5">
+          <div class="col-lg-12">
+            <div class="row">
+              <div class="col-lg-10 offset-lg-1">
+                <div id="reviews" class="carousel slide" data-ride="carousel">
+                  <div class="carousel-inner bg-white p-5">
+                    <div class="carousel-item active">
+                      <div class="content d-flex justify-content-center align-items-center">
+                        <div class="content-inner">
+                          <div class="stars-wrapper mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                          <p class="lg">“The sales team at DDP is beyond helpful. They guided us from the start of our relationship with DDP which ended up in the creation of a new program for our patients. DDP is very responsive, and they provide excellent service and attend to any issues in a timely manner. Their professionalism was the key point why we did not switch our program for a specific item to a better priced company with unknown customer service. We believe that it is hard to find such a reliable team as we have with DDP.”</p>
+                          <p class="xl b">- Irina T., DME Customer</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="content d-flex justify-content-center align-items-center">
+                        <div class="content-inner">
+                          <div class="stars-wrapper mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                          <p class="lg">“DDP has everything we need. The representatives are knowledgeable, and I can tell that they actually care about the welfare of my company. We get great support and great pricing on a wide range of medical supplies. Thank you, DDP!”</p>
+                          <p class="xl b">- Christina W., DME Customer</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="content d-flex justify-content-center align-items-center">
+                        <div class="content-inner">
+                          <div class="stars-wrapper mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                          <p class="lg">“Over the past several years, I have dealt with DDP on two fronts and have had nothing but great results. There have been more than several occasions when the Customer Service Team has gone above and beyond the call – they always have a quick resolve to issues and do not give up until it’s done. DDP provides a great customer service experience at all costs.”</p>
+                          <p class="xl b">- Mark V., DME and Dropship Customer</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="content d-flex justify-content-center align-items-center">
+                        <div class="content-inner">
+                          <div class="stars-wrapper mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                          <p class="lg">“If you are looking for a great partner when it comes to your diabetes and medical supplies, I would highly recommend that you reach out to DDP Medical Supply. I have worked in the diabetes field over the last 20 years and have had the opportunity to work with numerous wholesale companies, but none stand out like DDP Medical. DDP Medical is a person-driven company. In my 20 years as a manufacturer’s rep, I have never felt like a manufacturer’s rep at DDP Medical. They have always treated me like family and always go out of their way to help me be successful. If you are looking for a professional company that has your best interest in mind, don’t hesitate to pick up the phone and call DDP Medical.”</p>
+                          <p class="xl b">- Thomas B., Medical Supply Partner</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                      <div class="content d-flex justify-content-center align-items-center">
+                        <div class="content-inner">
+                          <div class="stars-wrapper mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                          <p class="lg">“We’ve substantially grown our CGM business by utilizing DDP as a partner for all our patient drop-ship orders. Their service team is always on their A game, and if there is an issue, they’re empowered to solve problems quickly and fairly.”</p>
+                          <p class="xl b">- Todd C., DME Customer</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#reviews" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#reviews" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="latest-news pt-5 pb-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+            <h2 class="text-center">Latest News</h2>
+            <div class="news">
+              {{#each blog.recent_posts}}
+              <div class="news-item">
+                <p class="eleven red mb-1 b-black tu">{{date_published}}</p>
+                <a href="{{url}}"><h3 class="mb-3 reg">{{title}}</h3></a>
+              </div>
+              {{/each}}
+            </div>
+            <div class="text-center">
+              <a href="/news/wholesale-medical-supplies/" class="button button--primary button--large mt-4">See All News</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overview text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 offset-lg-1">
+            <h1 class="h2">A Medical Supplies Distributor You Can Trust</h1>
+            <p class="xl mb-0">We pride ourselves on building positive and productive partnerships with our customers to help them build their businesses over the long term.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="vawd-accredited pt-5 pb-5">
+      <div class="container">
+        <div class="row d-flex align-items-center">
+          <div class="col-md-5 text-center text-md-right mb-5 mb-md-0"><a title="Drug Distributor" href="https://mybadges.us.openbadges.me/api/badgeitem/1b6541be-787f-42c7-8441-8b937362fa42/metadata"><img src="https://openbadges.blob.core.windows.net/bakedbadges-us/3fc0afff-122f-4456-914f-e92eaf03e382-19514013-3070-4c20-b860-5a99565d9428.png" alt="Drug Distributor" width="200" height="200" border="0"></a></div>
+          <div class="col-md-5 text-center text-md-left">
+            <p class="xl">DDP Medical Supply has been accredited by the National Association of Boards of Pharmacy® (NABP®) for drug distribution.</p>
+          </div>
+        </div>
+        <div class="row">
+            <div class="text-center col-md-12">
+                <a href="/about-ddp-medical-supply/wholesale-diabetic-supplies" class="button button--primary button--large mt-4">Learn More About DDP</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
+{{/partial}}
+{{> layout/base}}

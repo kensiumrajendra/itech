@@ -1,0 +1,3 @@
+{
+  "components/four13/cart-content-custom": "{{{ json ( extend (getObject 'cart_id' this) (get 'cart' this) ) }}}\n"
+}

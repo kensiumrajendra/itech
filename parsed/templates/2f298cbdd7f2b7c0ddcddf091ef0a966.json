@@ -1,0 +1,3 @@
+{
+  "components/common/login-for-pricing": "<div class=\"text-lg-right login-wrapper\">\r\n    <a href=\"/login.php\" class=\"button button--primary button--large\">Log In to Order</a>\r\n    <a href=\"/openandaccount/medical-partner-dme-physician-offices-surgical-centers\" class=\"button button--primary button--large button--blue ml-sm-3 ml-lg-0 ml-xl-3 mt-2 mt-sm-0 mt-xl-0\">Become a Customer</a>\r\n</div>\n"
+}
