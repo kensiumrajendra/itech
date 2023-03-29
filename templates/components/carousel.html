@@ -1,80 +1,45 @@
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="heroCarousel"
-                data-slick='{
-                    "arrows": {{arrows}},
-                    "mobileFirst": true,
-                    "slidesToShow": 1,
-                    "slidesToScroll": 1,
-                    "autoplay": true,
-                    "autoplaySpeed": {{carousel.swap_frequency}},
-                    "lazyLoad": "anticipated"
-                }'>
-                {{#each carousel.slides}}
-                    <div class="heroCarousel-slide {{#if ../theme_settings.homepage_stretch_carousel_images}}stretch{{/if}} {{#if @first}}heroCarousel-slide--first{{/if}}">
-                        <div class="heroCarousel-image-wrapper" {{#and image_height image_width}}style="height: {{multiply (divide image_height image_width) 100}}vw"{{/and}}>
-                        {{#if @first}}
-                            {{> components/common/responsive-img
-                                image=stencil_image
-                                class="heroCarousel-image"
-                                fallback_size='1280w'
-                                lazyload='disabled'
-                            }}
-                        {{else}}
-                            {{> components/common/responsive-img
-                                image=stencil_image
-                                class="heroCarousel-image"
-                                fallback_size='1280w'
-                                lazyload='lazyload'
-                            }}
-                        {{/if}}
-                        </div>
-                        {{#if heading}}
-                            {{> components/carousel-content show_background=true}}
-                        {{else}}
-                            {{#if text}}
-                                {{> components/carousel-content show_background=true}}
-                            {{else}}
-                                {{#if button_text}}
-                                    {{> components/carousel-content show_background=false}}
-                                {{/if}}
-                            {{/if}}
-                        {{/if}}
-                    </div>
-                {{/each}}
+<section class="heroCarousel"
+    data-slick='{
+        "arrows": {{arrows}},
+        "mobileFirst": true,
+        "slidesToShow": 1,
+        "slidesToScroll": 1,
+        "autoplay": true,
+        "autoplaySpeed": {{carousel.swap_frequency}},
+        "lazyLoad": "anticipated"
+    }'>
+    {{#each carousel.slides}}
+    <a href="{{url}}">
+        <div class="heroCarousel-slide {{#if ../theme_settings.homepage_stretch_carousel_images}}stretch{{/if}} {{#if @first}}heroCarousel-slide--first{{/if}}">
+            <div class="heroCarousel-image-wrapper" {{#and image_height image_width}}style="height: {{multiply (divide image_height image_width) 100}}vw"{{/and}}>
+            {{#if @first}}
+                {{> components/common/responsive-img
+                    image=stencil_image
+                    class="heroCarousel-image"
+                    fallback_size='1280w'
+                    lazyload='disabled'
+                }}
+            {{else}}
+                {{> components/common/responsive-img
+                    image=stencil_image
+                    class="heroCarousel-image"
+                    fallback_size='1280w'
+                    lazyload='lazyload'
+                }}
+            {{/if}}
             </div>
-            <div class="benefits pt-4 pb-4 text-center">
-                <div class="row">
-                  <div class="col-md-6 col-lg-3 mt-0 mt-md-3 mb-3">
-                    <h5>Thousands of Products to Choose From</h5>
-                    <p class="mb-0 sm">A Broad Selection of Wholesale Medical Equipment to Meet Your Customers’ Needs</p>
-                  </div>
-                  <div class="col-md-6 col-lg-3 mt-3 mb-3">
-                    <h5>Medical Supply Brand Names You Trust</h5>
-                    <p class="mb-0 sm">Well-established Partnerships with Hundreds of Medical Supplier Companies</p>
-                  </div>
-                  <div class="col-md-6 col-lg-3 mt-3 mb-3">
-                    <h5>Distribution & Supply Expertise</h5>
-                    <p class="mb-0 sm">Over 20 Years’ Experience Helping You Make Product Selections That Help Your Business Grow</p>
-                  </div>
-                  <div class="col-md-6 col-lg-3 mb-0 mt-3 mb-md-3">
-                    <h5>Committed to Logistical Excellence</h5>
-                    <p class="mb-0 sm">Delivering Your Order at the Right Time in the Right Quantity</p>
-                  </div>
-                </div>
-            </div>
+            {{#if heading}}
+                {{> components/carousel-content show_background=true}}
+            {{else}}
+                {{#if text}}
+                    {{> components/carousel-content show_background=true}}
+                {{else}}
+                    {{#if button_text}}
+                        {{> components/carousel-content show_background=false}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
         </div>
-        <div id="form" class="col-lg-4 mt-0 mt-lg-0">
-            <div class="bg-blue pt-3 pb-3">
-              <h3 class="text-center white mb-0 tu">Become a Customer</h3>
-            </div>
-            <div class="bg-light-grey p-4">
-              <div class="pipedriveWebForms" data-pd-webforms="https://webforms.pipedrive.com/f/63siAc4hvBnJ6Bp05xyuzIIruPPDZIjXtkzFDqsHSOuKTtytVpCNFxdFlEqEA23Ucz">
-                <script type="text/javascript" src="https://webforms.pipedrive.com/f/loader"></script>
-              </div>
-              <p class="sm mt-2">DDP is a business-to-business wholesale medical supplier and does not sell directly to consumers.</p>
-            </div>
-        </div>
-    </div>
-</div>
+    </a>
+    {{/each}}
+</section>

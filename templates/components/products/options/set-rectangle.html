@@ -1,4 +1,4 @@
-<div class="form-field pl-3 pl-lg-4 pt-3 pt-lg-4 pr-3 pr-lg-4" data-product-attribute="set-rectangle">
+<div class="form-field" data-product-attribute="set-rectangle">
     <label class="form-label form-label--alternate form-label--inlineSmall">
         {{this.display_name}}:
         <span data-option-value></span>
@@ -8,8 +8,6 @@
     </label>
     {{#each this.values}}
         <input
-            data-label-name="{{../this.display_name}}"
-            data-title="{{this.label}}"
             class="form-radio"
             type="radio"
             id="attribute_rectangle__{{../id}}_{{id}}"

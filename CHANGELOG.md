@@ -1,6 +1,74 @@
 # Changelog
 
 ## Draft
+
+## 4.5.4 (05-13-2020)
+-Bump jQuery version, expose jquery globally so it doesn't need to be loaded separately [#1671|https://github.com/bigcommerce/cornerstone/pull/1671]
+-Revert Add handlebars class/style variables for account fields [#1674|https://github.com/bigcommerce/cornerstone/pull/1674]
+
+## 4.5.3 (05-12-2020)
+
+## 4.5.2 (2020-05-12)
+
+## 4.5.1 (2020-05-11)
+-Added SchemaTranslations.json for cornerstone [#1644|https://github.com/bigcommerce/cornerstone/pull/1644]
+-Facets with & symbol works now [#1654|https://github.com/bigcommerce/cornerstone/pull/1654]
+-Add handlebars class/style variables for account fields [#1655|https://github.com/bigcommerce/cornerstone/pull/1655]
+-Bump lazysizes to 5.2.0 [#1646|https://github.com/bigcommerce/cornerstone/pull/1646]
+-Fix logo in admin bar [#1657|https://github.com/bigcommerce/cornerstone/pull/1657]
+-Special characters to render properly on the cart modal pop up [#1658|https://github.com/bigcommerce/cornerstone/pull/1658]
+-Reset cart quantity to 0 if we get a 404 for the cart [#1661|https://github.com/bigcommerce/cornerstone/pull/1661]
+-Fixed the special characters display issue in the search results page [#1662|https://github.com/bigcommerce/cornerstone/pull/1662]
+-Special characters are not rendered for product review [#1665|https://github.com/bigcommerce/cornerstone/pull/1665]
+
+## 4.5.0 (2020-03-16)
+- Fixed the check for max length in create account form fields [#1647](https://github.com/bigcommerce/cornerstone/pull/1647)
+- Add region to page.html [#1639](https://github.com/bigcommerce/cornerstone/pull/1639)
+
+## 4.4.2 (2020-02-25)
+- Remove "cookie notification" feature as it is no longer useful [#1636](https://github.com/bigcommerce/cornerstone/pull/1636)
+- Fix the html special chars issue in facet names (titles) [#1637](https://github.com/bigcommerce/cornerstone/pull/1637)
+- Fix category header image size [#1640](https://github.com/bigcommerce/cornerstone/pull/1640)
+- Fix navigation issues in Search Results [#1641](https://github.com/bigcommerce/cornerstone/pull/1641)
+- Bump stencil utils to 5.0.3 [#1642](https://github.com/bigcommerce/cornerstone/pull/1642)
+
+## 4.4.1 (2020-02-11)
+- Prevent triggering quantity change when pressing enter [#1630](https://github.com/bigcommerce/cornerstone/pull/1630)
+- Replace Karma with Jest [#1627](https://github.com/bigcommerce/cornerstone/pull/1627)
+- Fix price filter to honor control panel settings[#1633](https://github.com/bigcommerce/cornerstone/pull/1633)
+
+## 4.4.0 (2020-01-31)
+- Add translation key for "read more" blog post link [#1625](https://github.com/bigcommerce/cornerstone/pull/1625)
+- Update My Account Payment Methods template to expose all new savable payment methods [1603](https://github.com/bigcommerce/cornerstone/pull/1603)
+- Proper address formatting without any additional commas in My Account Payment Methods [1626](https://github.com/bigcommerce/cornerstone/pull/1626)
+- Product filters configured to not display product count show a count when you use the "More" modal[1622](https://github.com/bigcommerce/cornerstone/pull/1622)
+
+## 4.3.1 (2020-01-17)
+- Resolve visual regression in error modal icon animation [#1619](https://github.com/bigcommerce/cornerstone/pull/1619)
+- Update sweetalert2 library to latest version [#1617](https://github.com/bigcommerce/cornerstone/pull/1617)
+- Allow alert text color editing from theme editor and update default alert text color for Bold variation [#1565](https://github.com/bigcommerce/cornerstone/pull/1565)
+- Add jquery-migrate to Modal test [#1599](https://github.com/bigcommerce/cornerstone/pull/1599)
+- Upgrade core-js to version 3 [#1598](https://github.com/bigcommerce/cornerstone/pull/1598)
+- Fix to make browser back button navigate pagination properly when faceted search is enabled [#1606](https://github.com/bigcommerce/cornerstone/pull/1606)
+- Fixes itemprop availability meta tag for price including tax case in price.html component [#1601](https://github.com/bigcommerce/cornerstone/pull/1601)
+- Cannot add wishlist with item when logged out [#1618](https://github.com/bigcommerce/cornerstone/pull/1618)
+
+## 4.3.0 (2019-11-12)
+- Fixes body text color not taking effect for cart item headings on mobile / tablet [#1586](https://github.com/bigcommerce/cornerstone/pull/1586)
+- Fix styling of review modal image [#1592](https://github.com/bigcommerce/cornerstone/pull/1592)
+- Fix typo in README.md [#1588](https://github.com/bigcommerce/cornerstone/pull/1588)
+- Fix corejs warning [#1594](https://github.com/bigcommerce/cornerstone/pull/1594)
+- Fix cart quantity calculation for bundled products [#1596](https://github.com/bigcommerce/cornerstone/pull/1596)
+
+## 4.2.1 (2019-10-15)
+- Added missing gift certificate translation
+- Fix registerValidation function to validate on writeReview-form email field [#1585](https://github.com/bigcommerce/cornerstone/pull/1585)
+
+## 4.2.0 (2019-10-02)
+- Fixes and some additions to our Google Structured Data schema for the product page template [#1577](https://github.com/bigcommerce/cornerstone/pull/1577)
+- Fix thumbnail image sizes [#1579](https://github.com/bigcommerce/cornerstone/pull/1579)
+
+## 4.1.1 (2019-09-12)
 - Reset compare products counter after faceted search updates page content [#1571](https://github.com/bigcommerce/cornerstone/pull/1571)
 
 ## 4.1.0 (2019-08-28)

@@ -1,4 +1,4 @@
-<div class="form-field pl-3 pl-lg-4 pt-3 pt-lg-4 pr-3 pr-lg-4" data-product-attribute="swatch">
+<div class="form-field" data-product-attribute="swatch">
     <label class="form-label form-label--alternate form-label--inlineSmall">
         {{this.display_name}}:
         <span data-option-value></span>
@@ -9,7 +9,7 @@
     </label>
 
     {{#each this.values}}
-        <input data-label-name="{{../this.display_name}}" data-title="{{this.label}}" class="form-radio" type="radio" name="attribute[{{../id}}]" value="{{id}}" id="attribute_swatch_{{../id}}_{{id}}" {{#if selected}}checked data-default{{/if}} {{#if ../required}}required{{/if}}>
+        <input class="form-radio" type="radio" name="attribute[{{../id}}]" value="{{id}}" id="attribute_swatch_{{../id}}_{{id}}" {{#if selected}}checked data-default{{/if}} {{#if ../required}}required{{/if}}>
         <label class="form-option form-option-swatch" for="attribute_swatch_{{../id}}_{{id}}" data-product-attribute-value="{{id}}">
             {{#if image}}
                 <span class='form-option-variant form-option-variant--pattern' title="{{this.label}}" style="background-image: url('{{getImage image "swatch_option_size"}}');"></span>

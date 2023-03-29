@@ -1,14 +1,17 @@
-{{#or customer (if theme_settings.restrict_to_login '!==' true)}}
 {{#if theme_settings.show_product_quantity_box}}
-    <div class="form-field form-field--increments p-3 p-lg-4" style="display: none">
+    <div class="form-field form-field--increments">
         <label class="form-label form-label--alternate"
                for="qty[]">{{lang 'products.quantity'}}</label>
             <div class="form-increment" data-quantity-change>
                 <button class="button button--icon" data-action="dec">
                     <span class="is-srOnly">{{lang 'products.quantity_decrease'}}</span>
-                    <i class="fas fa-angle-down black"></i>
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use xlink:href="#icon-keyboard-arrow-down"/>
+                        </svg>
+                    </i>
                 </button>
-                <input class="form-input form-input--incrementTotal black"
+                <input class="form-input form-input--incrementTotal"
                        id="qty[]"
                        name="qty[]"
                        type="tel"
@@ -20,7 +23,11 @@
                        aria-live="polite">
                 <button class="button button--icon" data-action="inc">
                     <span class="is-srOnly">{{lang 'products.quantity_increase'}}</span>
-                    <i class="fas fa-angle-up black"></i>
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use xlink:href="#icon-keyboard-arrow-up"/>
+                        </svg>
+                    </i>
                 </button>
             </div>
     </div>
@@ -32,18 +39,9 @@
     </div>
     <p class="alertBox-column alertBox-message"></p>
 </div>
-<hr>
-    <div class="form-action p-4 bg-light-grey">
-        <input
-            id="form-action-addToCart"
-            data-wait-message="{{lang 'products.adding_to_cart'}}"
-            data-cart-item-inventory-id="{{product.sku}}"
-            data-cart-item-product-id="{{product.id}}"
-            class="button button--primary"
-            style="display: none"
-            type="submit"
-            value="{{#if product.pre_order}}{{lang 'products.pre_order'}}{{else}}{{lang 'products.add_to_cart'}}{{/if}}"
-        >
+{{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+    <div class="form-action">
+        <input id="form-action-addToCart" data-wait-message="{{lang 'products.adding_to_cart'}}" class="button button--primary" type="submit"
+            value="{{#if product.pre_order}}{{lang 'products.pre_order'}}{{else}}{{lang 'products.add_to_cart'}}{{/if}}">
     </div>
 {{/or}}
-<div id="add-to-cart-wrapper" class="add-to-cart-wrapper"></div>

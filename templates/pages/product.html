@@ -10,10 +10,7 @@ product:
         limit: {{theme_settings.productpage_similar_by_views_count}}
 ---
 {{#partial "page"}}
-
-
-        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
-      
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
 
     {{#each product.shipping_messages}}
         {{> components/common/alert-info message}}
@@ -28,6 +25,11 @@ product:
             {{> components/products/videos product.videos}}
         {{/if}}
 
+        {{#all settings.show_product_reviews (if theme_settings.show_product_reviews_tabs '!==' true)}}
+            {{> components/products/reviews reviews=product.reviews product=product urls=urls}}
+        {{/all}}
+
+        {{> components/products/tabs}}
     </div>
 {{/partial}}
 {{> layout/base}}

@@ -152,10 +152,16 @@ export default class Auth extends PageManager {
                 this.passwordRequirements,
             );
         }
-        
-        /* BundleB2B */
-        window.createAccountValidator = createAccountValidator;
-        /* BundleB2B */
+
+        $createAccountForm.on('submit', event => {
+            createAccountValidator.performCheck();
+
+            if (createAccountValidator.areAll('valid')) {
+                return;
+            }
+
+            event.preventDefault();
+        });
     }
 
     /**

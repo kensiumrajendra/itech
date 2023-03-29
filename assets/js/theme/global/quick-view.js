@@ -4,7 +4,6 @@ import utils from '@bigcommerce/stencil-utils';
 import ProductDetails from '../common/product-details';
 import { defaultModal } from './modal';
 import 'slick-carousel';
-import { applyAcumaticaPriceToElements, overrideProductDetails } from '../four13/tranzetta';
 
 export default function (context) {
     const modal = defaultModal();
@@ -18,10 +17,6 @@ export default function (context) {
 
         utils.api.product.getById(productId, { template: 'products/quick-view' }, (err, response) => {
             modal.updateContent(response);
-
-            const [modalContentRef] = modal.$content;
-            applyAcumaticaPriceToElements({ context: modalContentRef });
-            overrideProductDetails({ context: modalContentRef });
 
             modal.$content.find('.productView').addClass('productView--quickView');
 

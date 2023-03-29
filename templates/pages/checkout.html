@@ -35,30 +35,3 @@
 {{/partial}}
 
 {{> layout/empty}}
-
-<!-- b3 start -->
-<!-- 20210119: feature：Hide "Coupon/Gift Certificate" section from Order Summary. -->
-<style lang="scss">
-    .redeemable-label{
-        display: none!important;
-    }
-</style>
-<script>
-    let intervalId = setInterval(() => {
-        const shippingValDom = document.querySelector('[data-test="cart-shipping"] [data-test="cart-price-value"]')
-        const shippingKeyText = 'Shipping: To be determined offline'
-        const taxKeyText = 'Tax: To be determined offline'
-        const valText = 'TBD'
-        
-        if (shippingValDom && shippingValDom.innerText !== 'TBD') {
-            
-            shippingValDom.innerText = valText
-            document.querySelector('[data-test="cart-shipping"] [data-test="cart-price-label"]').innerText = shippingKeyText
-            document.querySelector('[data-test="cart-taxes"] [data-test="cart-price-label"]').innerText = taxKeyText
-            document.querySelector('[data-test="cart-taxes"] [data-test="cart-price-value"]').innerText = valText
-            clearInterval(intervalId)
-        }
-
-    }, 800);
-</script>
-<!-- b3 end -->

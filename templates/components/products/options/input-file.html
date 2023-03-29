@@ -7,7 +7,7 @@
         {{/if}}
     </label>
 
-    <input data-label-name="{{this.display_name}}" data-title="{{file_size}}" class="form-file" type="file" id="attribute_file_{{id}}" name="attribute[{{this.id}}]" {{#if required}}required{{/if}}>
+    <input class="form-file" type="file" id="attribute_file_{{id}}" name="attribute[{{this.id}}]" {{#if required}}required{{/if}}>
     {{#if original_name}}
         {{{lang 'products.file_option_set' url=file_url name=original_name}}}
         <label>{{lang 'cart.remove_file'}}<input type="checkbox" name="{{file_remove}}"></label>

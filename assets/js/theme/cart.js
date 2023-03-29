@@ -6,9 +6,6 @@ import ShippingEstimator from './cart/shipping-estimator';
 import { defaultModal } from './global/modal';
 import swal from './global/sweet-alert';
 
-import { updateCartItemWithAcumaticaPrice, getAcumaticaPrices } from './four13/tranzetta';
-import asyncUtils from './common/utils/async-stencil-utils';
-
 export default class Cart extends PageManager {
     onReady() {
         this.$cartContent = $('[data-cart-content]');
@@ -20,107 +17,50 @@ export default class Cart extends PageManager {
         this.bindEvents();
     }
 
-    async cartUpdate($target) {
+    cartUpdate($target) {
         const itemId = $target.data('cartItemid');
-        const inventoryId = $target.data('cartItemInventoryId');
-        const productId = $target.data('cartItemProductId');
-
         const $el = $(`#qty-${itemId}`);
         const oldQty = parseInt($el.val(), 10);
         const maxQty = parseInt($el.data('quantityMax'), 10);
         const minQty = parseInt($el.data('quantityMin'), 10);
         const minError = $el.data('quantityMinError');
         const maxError = $el.data('quantityMaxError');
-
-        let newQty=parseInt(Number($el.val()), 10)
-        let invalidEntry=oldQty
-        if ($target.data('action') === 'inc') {
-            if (maxQty > 0) {
-                if ((oldQty + 1) <= maxQty) {
-                    newQty = invalidEntry+1;
-                }
-            } else {
-                newQty = invalidEntry+1;
-            }
-        } else if (oldQty >= 1) {
-            if (minQty > 0) {
-                if ((oldQty - 1) >= minQty) {
-                    newQty = invalidEntry-1;
-                }
-            } else {
-                newQty = invalidEntry-1;
-            }
-        }
-        
+        const newQty = $target.data('action') === 'inc' ? oldQty + 1 : oldQty - 1;
         // Does not quality for min/max quantity
         if (newQty < minQty) {
-            return swal({
+            return swal.fire({
                 text: minError,
-                type: 'error',
+                icon: 'error',
             });
         } else if (maxQty > 0 && newQty > maxQty) {
-            return swal({
+            return swal.fire({
                 text: maxError,
-                type: 'error',
+                icon: 'error',
             });
         }
 
         this.$overlay.show();
 
-        try {
-            const response = await asyncUtils.api.cart.itemUpdate(itemId, newQty);
-            const [cart] = await asyncUtils.api.cart.getCart();
-            const { id: cartId } = cart;
+        utils.api.cart.itemUpdate(itemId, newQty, (err, response) => {
+            this.$overlay.hide();
 
             if (response.data.status === 'succeed') {
                 // if the quantity is changed "1" from "0", we have to remove the row.
                 const remove = (newQty === 0);
 
-                // update cart item with Acumatica price after updating qty
-                if (!remove) {
-                    try {
-                        await updateCartItemWithAcumaticaPrice({
-                            cartId,
-                            lineItemId: itemId,
-                            sku: inventoryId,
-                            productId,
-                            qty: newQty,
-                        });
-
-                        // not sure what is the Back Order app script's intent on reloading the page after
-                        // qty change we'll respect it for now and reload the page upon qty change
-                        window.location.reload();
-                    } catch (cartUpdateError) {
-                        console.error(cartUpdateError);
-
-                        swal({
-                            text: 'Something went wrong while updating the cart item quantity. Removing line item from cart to prevent incorrect price...',
-                            type: 'error',
-                        });
-
-                        // Remove cart line item from cart in case something went wrong.
-                        await asyncUtils.api.cart.itemRemove(itemId);
-                    }
-                }
-
-                await this.refreshContent(remove);
+                this.refreshContent(remove);
             } else {
                 $el.val(oldQty);
-                swal({
+                swal.fire({
                     text: response.data.errors.join('\n'),
-                    type: 'error',
+                    icon: 'error',
                 });
             }
-        } finally {
-            this.$overlay.hide();
-        }
+        });
     }
 
-    async cartUpdateQtyTextChange($target, preVal = null) {
+    cartUpdateQtyTextChange($target, preVal = null) {
         const itemId = $target.data('cartItemid');
-        const inventoryId = $target.data('cartItemInventoryId');
-        const productId = $target.data('cartItemProductId');
-
         const $el = $(`#qty-${itemId}`);
         const maxQty = parseInt($el.data('quantityMax'), 10);
         const minQty = parseInt($el.data('quantityMin'), 10);
@@ -134,70 +74,41 @@ export default class Cart extends PageManager {
         if (!newQty) {
             invalidEntry = $el.val();
             $el.val(oldQty);
-            return swal({
+            return swal.fire({
                 text: `${invalidEntry} is not a valid entry`,
-                type: 'error',
+                icon: 'error',
             });
         } else if (newQty < minQty) {
             $el.val(oldQty);
-            return swal({
+            return swal.fire({
                 text: minError,
-                type: 'error',
+                icon: 'error',
             });
         } else if (maxQty > 0 && newQty > maxQty) {
             $el.val(oldQty);
-            return swal({
+            return swal.fire({
                 text: maxError,
-                type: 'error',
+                icon: 'error',
             });
         }
-        this.$overlay.show();
 
-        try {
-            const response = await asyncUtils.api.cart.itemUpdate(itemId, newQty);
-            const [cart] = await asyncUtils.api.cart.getCart();
-            const { id: cartId } = cart;
+        this.$overlay.show();
+        utils.api.cart.itemUpdate(itemId, newQty, (err, response) => {
+            this.$overlay.hide();
 
             if (response.data.status === 'succeed') {
                 // if the quantity is changed "1" from "0", we have to remove the row.
                 const remove = (newQty === 0);
 
-                // update cart item with Acumatica price after updating qty
-                if (!remove) {
-                    try {
-                        await updateCartItemWithAcumaticaPrice({
-                            cartId,
-                            lineItemId: itemId,
-                            sku: inventoryId,
-                            productId,
-                            qty: newQty,
-                        });
-
-                        // not sure what is the Back Order app script's intent on reloading the page after
-                        // qty change we'll respect it for now and reload the page upon qty change
-                        window.location.reload();
-                    } catch (_cartUpdateError) {
-                        swal({
-                            text: 'Something went wrong while updating the cart item quantity. Removing line item from cart to prevent incorrect price...',
-                            type: 'error',
-                        });
-
-                        // Remove cart line item from cart in case something went wrong.
-                        await asyncUtils.api.cart.itemRemove(itemId);
-                    }
-                }
-
-                await this.refreshContent(remove);
+                this.refreshContent(remove);
             } else {
                 $el.val(oldQty);
-                swal({
+                swal.fire({
                     text: response.data.errors.join('\n'),
-                    type: 'error',
+                    icon: 'error',
                 });
             }
-        } finally {
-            this.$overlay.hide();
-        }
+        });
     }
 
     cartRemoveItem(itemId) {
@@ -206,9 +117,9 @@ export default class Cart extends PageManager {
             if (response.data.status === 'succeed') {
                 this.refreshContent(true);
             } else {
-                swal({
+                swal.fire({
                     text: response.data.errors.join('\n'),
-                    type: 'error',
+                    icon: 'error',
                 });
             }
         });
@@ -220,60 +131,12 @@ export default class Cart extends PageManager {
             template: 'cart/modals/configure-product',
         };
 
-        const $lineQtyEl = $(`#qty-${itemId}`);
-        const productId = $lineQtyEl.data('cartItemProductId');
-        let sku;
-
         modal.open();
 
         utils.api.productAttributes.configureInCart(itemId, options, (err, response) => {
             modal.updateContent(response.content);
 
             this.bindGiftWrappingForm();
-
-            $('#modal form').on('submit', async (event) => {
-                event.preventDefault();
-
-                const form = event.target;
-                // We're using `form.getAtrribute('action')` instead of just `form.action` because the
-                // latter will actually access an <input> element with the name 'action' in this form.
-                const formAction = form.getAttribute('action');
-                const submitBtn = form.querySelector('input[type=submit]');
-                const submitBtnOldText = submitBtn.value;
-
-                submitBtn.value = 'Updating...';
-                submitBtn.setAttribute('disabled', '');
-
-                try {
-                    await fetch(formAction, { method: form.method, body: new FormData(form) });
-
-                    const qty = parseInt($lineQtyEl.val(), 10);
-                    const [cart] = await asyncUtils.api.cart.getCart();
-                    const { id: cartId } = cart;
-
-                    await updateCartItemWithAcumaticaPrice({
-                        lineItemId: itemId,
-                        cartId,
-                        sku,
-                        productId,
-                        qty,
-                    });
-
-                    modal.close();
-                    this.refreshContent();
-                } catch {
-                    swal({
-                        text: 'Something went wrong while updating the product options.',
-                        type: 'error',
-                    });
-
-                    // Remove cart line item from cart in case something went wrong.
-                    utils.api.cart.itemRemove(itemId);
-
-                    submitBtn.value = submitBtnOldText;
-                    submitBtn.removeAttribute('disabled');
-                }
-            });
         });
 
         utils.hooks.on('product-option-change', (event, option) => {
@@ -283,48 +146,15 @@ export default class Cart extends PageManager {
             const $messageBox = $('.alertMessageBox');
             const item = $('[name="item_id"]', $form).attr('value');
 
-            const toggleProductOptionsDisabled = () => {
-                // Must have a small delay because BC Stencil Utils check for product 
-                // option input's disabled property upon change and exclude it in payload.
-                setTimeout(() => {
-                    $form.find('[data-product-attribute]').each((_, formFieldEl) => {
-                        const $formFieldEl = $(formFieldEl);
-                        const $inputEl = $('[name^=attribute]', $formFieldEl);
-                        const currentDisabledValue = $inputEl.prop('disabled');
-
-                        $inputEl.prop('disabled', !currentDisabledValue);
-                    });
-                }, 100);
-            };
-
-            $submit.prop('disabled', true);
-            toggleProductOptionsDisabled();
-
-            utils.api.productAttributes.optionChange(productId, $form.serialize(), async (err, result) => {
+            utils.api.productAttributes.optionChange(item, $form.serialize(), (err, result) => {
                 const data = result.data || {};
 
                 if (err) {
-                    swal({
+                    swal.fire({
                         text: err,
-                        type: 'error',
+                        icon: 'error',
                     });
                     return false;
-                }
-
-                const qty = parseInt($lineQtyEl.val(), 10);
-                let price;
-                sku = data.sku;
-
-                try {
-                    const pricesResponse = await getAcumaticaPrices([{ sku: data.sku, qty }]);
-                    price = pricesResponse[data.sku];
-                    $submit.prop('disabled', false);
-                } catch {
-                    $('p.alertBox-message', $messageBox).text('Something went wrong while getting the prices from the database.');
-                    $submit.prop('disabled', true);
-                    $messageBox.show();
-                } finally {
-                    toggleProductOptionsDisabled();
                 }
 
                 if (data.purchasing_message) {
@@ -341,20 +171,11 @@ export default class Cart extends PageManager {
                 } else {
                     $submit.prop('disabled', false);
                 }
-
-                if (price.value === null) {
-                    $('p.alertBox-message', $messageBox).text('No price in the database for this variant, please call for pricing.');
-                    $submit.prop('disabled', true);
-                    $messageBox.show();
-                } else {
-                    $submit.prop('disabled', false);
-                    $messageBox.hide();
-                }
             });
         });
     }
 
-    async refreshContent(remove) {
+    refreshContent(remove) {
         const $cartItemsRows = $('[data-item-row]', this.$cartContent);
         const $cartPageTitle = $('[data-cart-page-title]');
         const options = {
@@ -373,60 +194,27 @@ export default class Cart extends PageManager {
             return window.location.reload();
         }
 
-        try {
-            const response = await asyncUtils.api.cart.getContent(options);
-
+        utils.api.cart.getContent(options, (err, response) => {
             this.$cartContent.html(response.content);
             this.$cartTotals.html(response.totals);
             this.$cartMessages.html(response.statusMessages);
 
             $cartPageTitle.replaceWith(response.pageTitle);
             this.bindEvents();
+            this.$overlay.hide();
 
             const quantity = $('[data-cart-quantity]', this.$cartContent).data('cartQuantity') || 0;
 
             $('body').trigger('cart-quantity-update', quantity);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            this.$overlay.hide();
-        }
+        });
     }
 
     bindCartEvents() {
         const debounceTimeout = 400;
-        const cartRemoveItem = _.bind(_.debounce(this.cartRemoveItem, debounceTimeout), this);
-
-        this.bindCartQtyUpdate();
-
-        $('.cart-remove', this.$cartContent).on('click', event => {
-            const itemId = $(event.currentTarget).data('cartItemid');
-            const string = $(event.currentTarget).data('confirmDelete');
-            swal({
-                text: string,
-                type: 'warning',
-                showCancelButton: true,
-            }).then(() => {
-                // remove item from cart
-                cartRemoveItem(itemId);
-            });
-            event.preventDefault();
-        });
-
-        $('[data-item-edit]', this.$cartContent).on('click', event => {
-            const itemId = $(event.currentTarget).data('itemEdit');
-
-            event.preventDefault();
-            // edit item in cart
-            this.cartEditOptions(itemId);
-        });
-    }
-
-    bindCartQtyUpdate() {
-        const debounceTimeout = 400;
         const cartUpdate = _.bind(_.debounce(this.cartUpdate, debounceTimeout), this);
         const cartUpdateQtyTextChange = _.bind(_.debounce(this.cartUpdateQtyTextChange, debounceTimeout), this);
-        let preVal
+        const cartRemoveItem = _.bind(_.debounce(this.cartRemoveItem, debounceTimeout), this);
+        let preVal;
 
         // cart update
         $('[data-cart-update]', this.$cartContent).on('click', event => {
@@ -447,6 +235,30 @@ export default class Cart extends PageManager {
 
             // update cart quantity
             cartUpdateQtyTextChange($target, preVal);
+        });
+
+        $('.cart-remove', this.$cartContent).on('click', event => {
+            const itemId = $(event.currentTarget).data('cartItemid');
+            const string = $(event.currentTarget).data('confirmDelete');
+            swal.fire({
+                text: string,
+                icon: 'warning',
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.value) {
+                    // remove item from cart
+                    cartRemoveItem(itemId);
+                }
+            });
+            event.preventDefault();
+        });
+
+        $('[data-item-edit]', this.$cartContent).on('click', event => {
+            const itemId = $(event.currentTarget).data('itemEdit');
+
+            event.preventDefault();
+            // edit item in cart
+            this.cartEditOptions(itemId);
         });
     }
 
@@ -479,9 +291,9 @@ export default class Cart extends PageManager {
 
             // Empty code
             if (!code) {
-                return swal({
+                return swal.fire({
                     text: $codeInput.data('error'),
-                    type: 'error',
+                    icon: 'error',
                 });
             }
 
@@ -489,9 +301,9 @@ export default class Cart extends PageManager {
                 if (response.data.status === 'success') {
                     this.refreshContent();
                 } else {
-                    swal({
+                    swal.fire({
                         text: response.data.errors.join('\n'),
-                        type: 'error',
+                        icon: 'error',
                     });
                 }
             });
@@ -523,9 +335,9 @@ export default class Cart extends PageManager {
             event.preventDefault();
 
             if (!giftCertCheck(code)) {
-                return swal({
+                return swal.fire({
                     text: $certInput.data('error'),
-                    type: 'error',
+                    icon: 'error',
                 });
             }
 
@@ -533,9 +345,9 @@ export default class Cart extends PageManager {
                 if (resp.data.status === 'success') {
                     this.refreshContent();
                 } else {
-                    swal({
+                    swal.fire({
                         text: resp.data.errors.join('\n'),
-                        type: 'error',
+                        icon: 'error',
                     });
                 }
             });
@@ -606,35 +418,11 @@ export default class Cart extends PageManager {
         toggleViews();
     }
 
-    cleanCartQtyEventListeners() {
-        setTimeout(() => {
-            document.querySelectorAll('.form-increment').forEach(e => {
-                e.innerHTML = e.innerHTML;
-            })
-        
-            // rebind the cart qty update events
-            this.bindCartQtyUpdate()
-        }, 1)
-    }
-
-    overrideBackOrderScript() {
-        document.querySelectorAll('.form-increment button, .form-increment input').forEach(e => {
-            const originalAddEventListener = e.addEventListener;
-
-            e.addEventListener = () => {
-                // originalAddEventListener.apply(this, arguments);
-                this.cleanCartQtyEventListeners();
-            }
-        })
-    }
-
     bindEvents() {
         this.bindCartEvents();
         this.bindPromoCodeEvents();
         this.bindGiftWrappingEvents();
         this.bindGiftCertificateEvents();
-
-        this.overrideBackOrderScript();
 
         // initiate shipping estimator module
         this.shippingEstimator = new ShippingEstimator($('[data-shipping-estimator]'));

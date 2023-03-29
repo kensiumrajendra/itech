@@ -8,11 +8,6 @@ import { classifyForm, Validators, insertStateHiddenField } from './common/form-
 import { creditCardType, storeInstrument, Validators as CCValidators, Formatters as CCFormatters } from './common/payment-method';
 import swal from './global/sweet-alert';
 
-import asyncStencilUtils from './four13/common/async-stencil-utils';
-import { updateCartItemWithAcumaticaPrice } from './four13/tranzetta';
-
-const { api: asyncApi } = asyncStencilUtils;
-
 export default class Account extends PageManager {
     constructor(context) {
         super(context);
@@ -104,33 +99,9 @@ export default class Account extends PageManager {
         });
     }
 
-    async removeReorderedOrderItems($productReorderCheckboxes) {
-        const selectedProductSkus = $productReorderCheckboxes.get().map(el => el.dataset.orderItemSku);
-        const cart = await asyncApi.cart.getCart();
-
-        if (!cart) return;
-
-        const removeDuplicatePromises = cart.lineItems.physicalItems.reduce(
-            (promises, item) => {
-                if (selectedProductSkus.includes(item.sku)) {
-                    return [...promises, asyncApi.cart.itemRemove(item.id)];
-                }
-
-                return promises;
-            },
-            [],
-        );
-
-        await Promise.all(removeDuplicatePromises);
-    }
-
     initReorderForm($reorderForm) {
-        $reorderForm.on('submit', async event => {
-            event.preventDefault();
-
-            const $reorderButton = $('input[value=Reorder]', $reorderForm);
+        $reorderForm.on('submit', event => {
             const $productReorderCheckboxes = $('.account-listItem .form-checkbox:checked');
-            const originalReorderButtonText = $reorderButton.val();
             let submitForm = false;
 
             $reorderForm.find('[name^="reorderitem"]').remove();
@@ -149,68 +120,11 @@ export default class Account extends PageManager {
             });
 
             if (!submitForm) {
-                return swal({
+                event.preventDefault();
+                swal.fire({
                     text: this.context.selectItem,
-                    type: 'error',
+                    icon: 'error',
                 });
-            }
-
-            try {
-                $reorderButton.val('Processing reorder...');
-                $reorderButton.attr('disabled', '');
-
-                const [reorderForm] = $reorderForm;
-                const formData = new FormData(reorderForm);
-                const requestUrl = reorderForm.action;
-
-                // Reorder without redirecting by sending a request directly
-                const reorderResponse = await fetch(requestUrl, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                // Once the reorder request is complete, get the cart contents with dummy templates.
-                const cartResponse = await asyncApi.cart.getContent({
-                    template: {
-                        // This template gets the `cart` object with the `cart_id`, in JSON format.
-                        content: 'four13/cart-content-custom',
-                        // Below templates just render nothing.
-                        totals: 'four13/empty',
-                        pageTitle: 'four13/empty',
-                        statusMessages: 'four13/empty',
-                    },
-                });
-
-                // Parse the cart response JSON string.
-                const cart = JSON.parse(cartResponse.content);
-
-                // Must update in sequence because cart is being updated in whole with each call
-                // so we can't use Promise.all for this case as only one product will get updated.
-                for (const cartItem of cart.items) {
-                    // eslint-disable-next-line no-await-in-loop
-                    await updateCartItemWithAcumaticaPrice({
-                        cartId: cart.cart_id,
-                        lineItemId: cartItem.id,
-                        sku: cartItem.sku,
-                        productId: cartItem.product_id,
-                        qty: cartItem.quantity,
-                    });
-                }
-
-                // Redirect once the Acumatica prices are applied.
-                if (reorderResponse.redirected) {
-                    window.location.href = reorderResponse.url;
-                }
-            } catch (err) {
-                this.removeReorderedOrderItems($productReorderCheckboxes);
-
-                swal({
-                    text: 'Something went wrong during reorder process.',
-                    type: 'error',
-                });
-
-                $reorderButton.removeAttr('disabled');
-                $reorderButton.val(originalReorderButtonText);
             }
         });
     }
@@ -284,9 +198,9 @@ export default class Account extends PageManager {
                 return true;
             }
 
-            swal({
+            swal.fire({
                 text: errorMessage,
-                type: 'error',
+                icon: 'error',
             });
 
             return event.preventDefault();
@@ -385,9 +299,9 @@ export default class Account extends PageManager {
                 storeInstrument(this.context, data, () => {
                     window.location.href = this.context.paymentMethodsUrl;
                 }, () => {
-                    swal({
+                    swal.fire({
                         text: this.context.generic_error,
-                        type: 'error',
+                        icon: 'error',
                     });
                 });
             }
