@@ -67,14 +67,9 @@ export default function (secureBaseUrl, cartId) {
 
         // Get updated cart quantity from the Cart API
         const cartQtyPromise = new Promise((resolve, reject) => {
-            utils.api.cart.getCartQuantity({ baseUrl: secureBaseUrl, cartId }, (err, qty) => {
+            utils.api.cart.getCartQuantity({ baseUrl: secureBaseUrl }, (err, qty) => {
                 if (err) {
-                    // If this appears to be a 404 for the cart ID, set cart quantity to 0
-                    if (err === 'Not Found') {
-                        resolve(0);
-                    } else {
-                        reject(err);
-                    }
+                    reject(err);
                 }
                 resolve(qty);
             });

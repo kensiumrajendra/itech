@@ -28,7 +28,8 @@
 
         <div class="card-text" data-test-info-type="price">
             {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
-                {{> components/products/price price=price customer=customer}}
+                {{!-- {{> components/products/price price=price customer=customer}} --}}
+                {{> components/four13/price product_sku=sku}}
             {{else}}
                 {{> components/common/login-for-pricing}}
             {{/or}}

@@ -9,6 +9,8 @@
 
     {{#each this.values}}
         <input
+            data-label-name="{{../this.display_name}}"
+            data-title="{{this.label}}"
             class="form-radio"
             type="radio"
             id="attribute_radio_{{../id}}_{{id}}"

@@ -1,0 +1,11 @@
+{{!-- Custom price component --}}
+<div class="price-section">
+    {{!--
+        The identifier for the product in Acumatica is referred to as Inventory ID. 
+        In BigCommerce, it is the SKU. We use `data-product-custom-price` here as
+        the selector for the custom price components to replace with the fetched price.
+    --}}
+    <span class="price" data-inventory-id="{{product_sku}}"{{#if product_id}} data-product-id-for-fixing="{{product_id}}"{{/if}} data-product-custom-price>
+        Loading...
+    </span>
+</div>

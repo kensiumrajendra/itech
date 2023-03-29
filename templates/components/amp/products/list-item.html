@@ -20,7 +20,10 @@
             </div>
             <div class="listItem-actions">
                 {{#if price}}
-                    <div class="listItem-price">{{> components/products/price price=price}}</div>
+                    <div class="listItem-price">
+                        {{!-- {{> components/products/price price=price}} --}}
+                        {{> components/four13/price product_sku=sku}}
+                    </div>
                 {{/if}}
                 {{#unless hide_add_to_cart}}
                     {{#if has_options}}

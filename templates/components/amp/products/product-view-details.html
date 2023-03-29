@@ -13,7 +13,8 @@
         {{/if}}
         {{#if product.price}}
             <div class="productView-price">
-                {{> components/products/price price=product.price schema_org=schema}}
+                {{> components/four13/price product_sku=product.sku}}
+                {{!-- {{> components/products/price price=product.price schema_org=schema}} --}}
             </div>
         {{/if}}
         {{product.detail_messages}}

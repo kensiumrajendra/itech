@@ -18,88 +18,107 @@
     {{/if}}
 
 {{/if}}
+<div class="subscribe bg-blue pt-120 pb-120">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <h2 class="white text-center">Stay Connected with Us!</h2>
+        <p class="xl white text-center mb-md-4 mb-3">Enter your email address below to keep up with the latest DDP news and product promotions!</p>
+        <div class="klaviyo-form-Tm4pmv"></div>
+        <!--<form action="/" method="post" class="subscribe-form">
+          <div class="d-md-flex justify-content-md-center mb-4">
+            <span class="your-email pr-4">
+              <input type="email" name="your-email" value="" size="40" class="" aria-required="true" aria-invalid="false" placeholder="Email Address *">
+            </span>
+            <div class="button-wrapper mt-3 mt-md-0">
+              <button id="submit" class="arrow-send">Send</button>
+            </div>
+          </div>
+        </form>
+        -->
+      </div>
+    </div>
+  </div>
+</div>
 <footer class="footer" role="contentinfo">
     <div class="container">
-        {{#if theme_settings.social_icon_placement_bottom '!==' 'bottom_none'}}
-            <article class="footer-info-col
-                footer-info-col--social
-                footer-info-col--{{#if theme_settings.social_icon_placement_bottom '===' 'bottom_left'}}left{{else}}right{{/if}}"
-                data-section-type="footer-webPages">
-                    <h5 class="footer-info-heading">{{lang 'social.connect'}}</h5>
-                    {{> components/common/social-links}}
-            </article>
-        {{/if}}
-        <section class="footer-info">
-            <article class="footer-info-col footer-info-col--small" data-section-type="footer-webPages">
-                <h5 class="footer-info-heading">{{lang 'footer.navigate'}}</h5>
-                <ul class="footer-info-list">
-                    {{#each pages}}
-                        <li>
-                            <a href="{{url}}">{{name}}</a>
-                        </li>
-                    {{/each}}
-                    <li>
-                        <a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a>
-                    </li>
-                </ul>
-            </article>
-
-            <article class="footer-info-col footer-info-col--small" data-section-type="footer-categories">
-                <h5 class="footer-info-heading">{{lang 'footer.categories'}}</h5>
-                <ul class="footer-info-list">
-                    {{#each categories}}
-                        <li>
-                            <a href="{{url}}">{{name}}</a>
-                        </li>
-                    {{/each}}
-                </ul>
-            </article>
-
-            {{#and theme_settings.shop_by_brand_show_footer shop_by_brand.length}}
-            <article class="footer-info-col footer-info-col--small" data-section-type="footer-brands">
-                <h5 class="footer-info-heading">{{lang 'footer.brands'}}</h5>
-                <ul class="footer-info-list">
-                    {{#each shop_by_brand}}
-                        <li>
-                            <a href="{{url}}">{{name}}</a>
-                        </li>
-                    {{/each}}
-                    <li><a href="{{urls.brands}}">{{lang 'common.view_all'}}</a></li>
-                </ul>
-            </article>
-            {{/and}}
-
-            {{#if settings.address}}
-            <article class="footer-info-col footer-info-col--small" data-section-type="storeInfo">
-                <h5 class="footer-info-heading">{{lang 'footer.info'}}</h5>
-                <address>{{nl2br settings.address}}</address>
-                {{#if settings.phone_number}}
-                    <strong>{{lang 'footer.call_us' phone_number=settings.phone_number}}</strong>
-                {{/if}}
-            </article>
-            {{/if}}
-
-            <article class="footer-info-col" data-section-type="newsletterSubscription">
-                {{#if settings.show_newsletter_box}}
-                    {{> components/common/subscription-form}}
-                {{/if}}
-                {{> components/common/payment-icons}}
-            </article>
-        </section>
-        {{#if theme_settings.geotrust_ssl_common_name}}
-            <div class="footer-geotrust-ssl-seal">
-                {{> components/common/geotrust-ssl-seal}}
-            </div>
-        {{/if}}
-        {{#if theme_settings.show_powered_by}}
-            <div class="footer-copyright">
-                <p class="powered-by">Powered by <a href="https://www.bigcommerce.com?utm_source=merchant&amp;utm_medium=poweredbyBC" rel="nofollow">BigCommerce</a></p>
-            </div>
-        {{/if}}
-        {{#if theme_settings.show_copyright_footer}}
-            <div class="footer-copyright">
-                <p class="powered-by">&copy; {{moment format="YYYY"}} {{settings.store_name}} </p>
-            </div>
-        {{/if}}
+      <div class="row">
+        <div class="col-lg-3">
+          <h5>About DDP</h5>
+          <ul class="nb sm mb-0">
+            <li><a href="/about-ddp-medical-supply/wholesale-diabetic-supplies">About Us</a></li>
+            <li><a href="/medical-supply-partners/physican-offices-surgical-centers">Medical Supply Partners</a></li>
+            <li><a href="/careers/long-standing-relationships-medical">Careers</a></li>
+            <li><a href="/news/wholesale-medical-supplies/">News</a></li>
+          </ul>
+          <h5 class="mt-4 mt-lg-5">Become a Customer</h5>
+          <ul class="nb sm mb-0">
+            <li><a href="/openandaccount/medical-partner-dme-physician-offices-surgical-centers">Open an Account</a></li>
+            <li><a href="/manage-your-account-distribution-company-surgical-supply-store">Manage Your Account</a></li>
+            <li><a href="/wholesale-medical-supplies-physican-offices-surgical-centers">Customer Portal</a></li>
+            <li><a href="/faqs/wholesale-medical-supplies">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h5 class="mt-4 mt-lg-0">Wholesale Medical Supplies</h5>
+          <ul class="nb sm mb-0">
+            <li>
+                <a href="/shop-all-medical-supplies-and-equipment/">All Products</a>
+            </li>
+            <li>
+                <a href="/diabetic-supplies/">Diabetic Supplies</a>
+            </li>
+            <li>
+                <a href="https://ddpmedical.com/product-line/physician-office-lab/?sort=alphaasc&page=2">Physician Office Supplies</a>
+            </li>
+             <li>
+                <a href="/dme/">DME</a>
+            </li>
+             <li>
+                <a href="/syringes-iv-sets/">Needles, Syringes and IV Products</a>
+            </li>
+             <li>
+                <a href="/ostomy/">Ostomy</a>
+            </li>
+             <li>
+                <a href="/pharmaceuticals/">Pharmaceuticals and Rx</a>
+            </li>
+            <!--<li>
+                <a href="/shop-all-medical-supplies-and-equipment/cbd-products/">CBD Products</a>
+            </li>-->
+             <li>
+                <a href="/urology/">Urology</a>
+            </li>
+             <li>
+                <a href="/wound-care/">Wound Care</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h5 class="mt-4 mt-lg-0">Get in Touch</h5>
+          <a class="d-block mb-3 sm" href="tel:800-437-4455">800-437-4455</a>
+          <a href="#" class="d-block mb-3 sm">11800 28th Street North <span class="d-block">St. Petersburg, FL 33716</span></a>
+          <a class="d-block mb-3 sm" href="mailto:customerservice@ddpmedical.com">customerservice@ddpmedical.com</a>
+          {{> components/common/social-links}}
+        </div>
+        <div class="col-lg-3 text-lg-right mt-4 mt-lg-0">
+          <a href="#header" class="d-block"><h5 class="tu">Back to Top</h5></a>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="disclaimer">
+            <p class="sm">DDP Medical Supply offers wholesale medical supplies and equipment, sales and distribution in a reliable and timely fashion to durable medical equipment companies (DME), pharmaceutical retailers, physician offices and surgical centers.</p>
+            <p class="sm">DDP Medical equipment wholesale has been partnering with the medical community within the USA for over 20 years.  Areas of expertise include wholesale diabetic supplies wholesale CGM, as well as being a medical surgical supplier, urology supplier and wound care supplier.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-lg-12">
+          <div class="footer-copyright">
+            <p class="sm powered-by">&copy; {{moment format="YYYY"}} {{settings.store_name}} | <a href="/privacypolicy/wholesale-medical-supplies-pharmaceutical-wholesale">Privacy Policy</a> | <a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a> </p>
+          </div>
+        </div>
+      </div>
     </div>
 </footer>

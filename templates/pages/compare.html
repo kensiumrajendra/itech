@@ -36,11 +36,12 @@
                                 <a href="{{url}}">{{ name }}</a>
                             </h4>
                             {{#or ../customer (if ../theme_settings.restrict_to_login '!==' true)}}
-                                {{#if price_range}}
+                                {{!-- {{#if price_range}}
                                     {{> components/products/price-range}}
                                 {{else}}
                                     {{> components/products/price price=price}}
-                                {{/if}}
+                                {{/if}} --}}
+                                {{> components/four13/price product_sku=sku}}
                             {{else}}
                                 {{> components/common/login-for-pricing}}
                             {{/or}}
