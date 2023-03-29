@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import utils from '@bigcommerce/stencil-utils';
 import StencilDropDown from './stencil-dropdown';
+import { applyAcumaticaPriceToElements, overrideAddToCartButtons } from '../four13/tranzetta';
 
 export default function () {
     const TOP_STYLING = 'top: 49px;';
@@ -36,6 +37,12 @@ export default function () {
             }
 
             $quickSearchResults.html(response);
+
+            // There are two quick search result elements in this theme, we'll apply Acumatica price to both
+            $quickSearchResults.each(async (_, el) => {
+                await applyAcumaticaPriceToElements({ context: el });
+                overrideAddToCartButtons({ context: el });
+            });
         });
     }, 200);
 

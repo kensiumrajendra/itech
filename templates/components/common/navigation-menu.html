@@ -2,24 +2,137 @@
     <div class="navPages-quickSearch">
         {{> components/common/quick-search}}
     </div>
-    <ul class="navPages-list{{#if theme_settings.navigation_design '!==' 'simple'}} navPages-list-depth-max{{/if}}">
-        {{#each categories}}
-            <li class="navPages-item">
-            {{#if ../theme_settings.navigation_design '===' 'simple'}}
-                {{> components/common/navigation-list}}
-            {{/if}}
-            {{#if ../theme_settings.navigation_design '===' 'alternate'}}
-                {{> components/common/navigation-list-alternate}}
-            {{/if}}
-            </li>
-        {{/each}}
-        {{#unless theme_settings.hide_content_navigation}}
-            {{#each pages}}
-                 <li class="navPages-item navPages-item-page">
-                     <a class="navPages-action{{#if name '==' ../page.title}} activePage{{/if}}" href="{{url}}">{{name}}</a>
-                 </li>
-             {{/each}}
-        {{/unless}}
+    <ul class="d1-none d-801-block">
+        <li class="navPages-item dropdown">
+            <a class="navPages-action nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                About DDP <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/about-ddp-medical-supply/wholesale-diabetic-supplies">About Us</a>
+                <a class="dropdown-item" href="/medical-supply-partners/physican-offices-surgical-centers">Medical Supply Partners</a>
+                <a class="dropdown-item" href="/careers/long-standing-relationships-medical">Careers</a>
+            </div>
+        </li>
+        <li class="navPages-item dropdown">
+            <a class="navPages-action nav-link dropdown-toggle" href="#" id="navbarDropdownCategories" role="button" data-toggle="dropdown" aria-expanded="false">
+                Wholesale Medical Supplies <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownCategories">
+                <a class="dropdown-item" href="/shop-all-medical-supplies-and-equipment/">All Products</a>
+                <a class="dropdown-item" href="/diabetic-supplies/">Diabetic Supplies</a>
+                <a class="dropdown-item" href="https://ddpmedical.com/product-line/physician-office-lab/?sort=alphaasc&page=2">Physician Office Supplies</a>
+                <a class="dropdown-item" href="/dme/">DME</a>
+                <a class="dropdown-item" href="/syringes-iv-sets/">Needles, Syringes and IV Products</a>
+                <a class="dropdown-item" href="/ostomy/">Ostomy</a>
+                <a class="dropdown-item" href="/pharmaceuticals/">Pharmaceuticals and Rx</a>
+                <!--<a class="dropdown-item" href="/shop-all-medical-supplies-and-equipment/cbd-products/">CBD Products</a>-->
+                <a class="dropdown-item" href="/urology/">Urology</a>
+                <a class="dropdown-item" href="/wound-care/">Wound Care</a>
+            </div>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action nav-link" href="/pharmaceuticals/">Pharmaceuticals and Rx</a>
+        </li>
+        <li class="navPages-item dropdown">
+            <a class="navPages-action nav-link dropdown-toggle" href="#" id="navbarDropdownResources" role="button" data-toggle="dropdown" aria-expanded="false">
+                Customer Resources <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownResources">
+                <a class="dropdown-item" href="/openandaccount/medical-partner-dme-physician-offices-surgical-centers">Open an Account</a>
+                <a class="dropdown-item" href="https://na3.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=8c7fa79d-a27e-465e-94de-3676f6236550&env=na3&acct=6a3f0373-f45e-4a51-aec7-1132930910f3&v=2" target="_blank">Credit Application</a>
+                <a class="dropdown-item" href="/manage-your-account-distribution-company-surgical-supply-store">Manage Your Account</a>
+                <a class="dropdown-item" href="/wholesale-medical-supplies-physican-offices-surgical-centers">Customer Portal</a>
+                <a class="dropdown-item" href="/faqs/wholesale-medical-supplies">FAQs</a>
+                <!--<a class="dropdown-item" href="https://store-tvpg77x4p0.mybigcommerce.com/content/DDP%20Pre-Book%20Flu%20Form%202021-22.pdf" target="_blank">Flu Pre Book Form</a>-->
+            </div>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action nav-link" href="/openandaccount/medical-partner-dme-physician-offices-surgical-centers">Become a Customer</a>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action nav-link" href="/news/wholesale-medical-supplies/">News</a>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action nav-link" href="/contact-us/wholesale-medical-supplier">Contact</a>
+        </li>
+    </ul>
+    <ul class="navPages-list{{#if theme_settings.navigation_design '!==' 'simple'}} navPages-list-depth-max{{/if}} d1-block d-801-none">
+        <li class="navPages-item">
+            <a class="navPages-action has-subMenu" href="/about-ddp-medical-supply/wholesale-diabetic-supplies" data-collapsible="navPages-about" aria-controls="navPages-about" aria-expanded="false">
+                About DDP <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+            </a>
+            <div class="navPage-subMenu" id="navPages-about" aria-hidden="true" tabindex="-1">
+                <ul class="navPage-subMenu-list">
+                    <li class="">
+                        <a class="navPage-subMenu-action navPages-action" href="/about-ddp-medical-supply/wholesale-diabetic-supplies">About Us</a>
+                    </li>
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="/medical-supply-partners/">Medical Supply Partners</a>
+                    </li>
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="/careers/long-standing-relationships-medical">Careers</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action has-subMenu" href="/about-ddp-medical-supply/wholesale-diabetic-supplies" data-collapsible="navPages-categories" aria-controls="navPages-about" aria-expanded="false">
+                Wholesale Medical Supplies <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+            </a>
+            <div class="navPage-subMenu" id="navPages-categories" aria-hidden="true" tabindex="-1">
+                <ul class="navPage-subMenu-list">
+                    <li class=""><a class="navPage-subMenu-action navPages-action" href="/shop-all-medical-supplies-and-equipment/">All Products</a></li>
+                    <li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="/diabetic-supplies/">Diabetic Supplies</a></li>
+                    <li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="https://ddpmedical.com/product-line/physician-office-lab/?sort=alphaasc&page=2">Physician Office Supplies</a></li>
+                    <li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="/dme/">DME</a></li>
+                    <li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="/syringes-iv-sets/">Needles, Syringes and IV Products</a></li>
+                    <li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="/ostomy/">Ostomy</a></li>
+                    <li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="/pharmaceuticals/">Pharmaceuticals and Rx</a></li>
+                    <!--<li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="/shop-all-medical-supplies-and-equipment/cbd-products/">CBD Products</a></li>-->
+                    <li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="/urology/">Urology</a></li>
+                    <li class="navPage-subMenu-item"><a class="navPage-subMenu-action navPages-action" href="/wound-care/">Wound Care</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action" href="/pharmaceuticals/">Pharmaceuticals and Rx</a>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action has-subMenu" href="#" data-collapsible="navPages-resources">
+                Customer Resources <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+            </a>
+            <div class="navPage-subMenu" id="navPages-resources" aria-hidden="true" tabindex="-1">
+                <ul class="navPage-subMenu-list">
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="/openandaccount/medical-partner-dme-physician-offices-surgical-centers">Open an Account</a>
+                    </li>
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="https://na3.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=8c7fa79d-a27e-465e-94de-3676f6236550&env=na3&acct=6a3f0373-f45e-4a51-aec7-1132930910f3&v=2" target="_blank">Credit Application</a>
+                    </li>
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="/manage-your-account-distribution-company-surgical-supply-store">Manage Your Account</a>
+                    </li>
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="/wholesale-medical-supplies-physican-offices-surgical-centers">Customer Portal</a>
+                    </li>
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="/faqs/wholesale-medical-supplies">FAQs</a>
+                    </li>
+                    <!--<li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action" href="https://store-tvpg77x4p0.mybigcommerce.com/content/DDP%20Pre-Book%20Flu%20Form%202021-22.pdf" target="_blank">Flu Pre Book Form</a>
+                    </li>-->
+                </ul>
+            </div>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action" href="/openandaccount/medical-partner-dme-physician-offices-surgical-centers">Become a Customer</a>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action" href="/news/wholesale-medical-supplies/">News</a>
+        </li>
+        <li class="navPages-item">
+            <a class="navPages-action" href="/contact-us/wholesale-medical-supplier">Contact</a>
+        </li>
     </ul>
     <ul class="navPages-list navPages-list--user">
         {{#if currency_selector.currencies.length '>' 1}}

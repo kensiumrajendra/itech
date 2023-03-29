@@ -6,6 +6,14 @@ import modalFactory, { showAlertModal } from '../global/modal';
 import _ from 'lodash';
 import Wishlist from '../wishlist';
 
+import {
+    applyAcumaticaPriceToElement,
+    removeDuplicateCartProducts,
+    updateCartItemWithAcumaticaPrice,
+} from '../four13/tranzetta';
+import swal from '../global/sweet-alert';
+import asyncStencilUtils from './utils/async-stencil-utils';
+
 export default class ProductDetails {
     constructor($scope, context, productAttributesData = {}) {
         this.$overlay = $('[data-cart-item-add] .loadingOverlay');
@@ -31,7 +39,6 @@ export default class ProductDetails {
         $form.on('submit', event => {
             this.addProductToCart(event, $form[0]);
         });
-
         // Update product attributes. Also update the initial view in case items are oos
         // or have default variant properties that change the view
         if ((_.isEmpty(productAttributesData) || hasDefaultOptions) && hasOptions) {
@@ -46,14 +53,29 @@ export default class ProductDetails {
                 } else {
                     this.updateDefaultAttributesForOOS(attributesData);
                 }
+
+                if (!this.currentProductVariant && hasOptions) {
+                    const viewModel = this.getViewModel(this.$scope);
+                    this.disableSubmitAndQtyFormInput(viewModel);
+                }
             });
         } else {
             this.updateProductAttributes(productAttributesData);
         }
 
+        if (!this.currentProductVariant && hasOptions) {
+            const viewModel = this.getViewModel(this.$scope);
+            this.disableSubmitAndQtyFormInput(viewModel);
+        }
+
         $productOptionsElement.show();
 
+        this.$productOptionsFormControls = $(':input', $productOptionsElement);
+        this.$priceElement = $('[data-product-custom-price]', $scope);
+        this.mainProductSku = $('[data-product-sku]', $scope).text().trim();
+        this.currentProductVariant = null;
         this.previewModal = modalFactory('#previewModal')[0];
+
     }
 
     /**
@@ -165,10 +187,12 @@ export default class ProductDetails {
             if (view.attr('data-event-type')) {
                 view.attr('data-product-variant', productVariant);
             } else {
-                const productName = view.find('.productView-title')[0].innerText;
+                const productName = view.find('.productView-title, h1.h3')[0].innerText;
                 const card = $(`[data-name="${productName}"]`);
                 card.attr('data-product-variant', productVariant);
             }
+
+            this.currentProductVariant = productVariant;
         }
     }
 
@@ -252,19 +276,61 @@ export default class ProductDetails {
     productOptionsChanged(event) {
         const $changedOption = $(event.target);
         const $form = $changedOption.parents('form');
+        const viewModel = this.getViewModel(this.$scope);
         const productId = $('[name="product_id"]', $form).val();
+        const serializedFormData = $form.serialize();
+        const optionChangeComponent = 'products/bulk-discount-rates';
 
         // Do not trigger an ajax request if it's a file or if the browser doesn't support FormData
         if ($changedOption.attr('type') === 'file' || window.FormData === undefined) {
             return;
         }
 
-        utils.api.productAttributes.optionChange(productId, $form.serialize(), 'products/bulk-discount-rates', (err, response) => {
-            const productAttributesData = response.data || {};
-            const productAttributesContent = response.content || {};
-            this.updateProductAttributes(productAttributesData);
-            this.updateView(productAttributesData, productAttributesContent);
-        });
+        // this.disableProductOptions();
+        this.disableSubmitAndQtyFormInput(viewModel);
+
+        utils.api.productAttributes.optionChange(
+            productId,
+            serializedFormData,
+            optionChangeComponent,
+            async (err, response) => {
+                const productAttributesData = response.data || {};
+                const productAttributesContent = response.content || {};
+                this.updateProductAttributes(productAttributesData);
+                this.updateView(productAttributesData, productAttributesContent);
+                this.disableSubmitAndQtyFormInput(viewModel); // undo updateView enabling add to cart and increments
+
+                const $view = $form.parents('.productView');
+                const newSku = productAttributesData.sku;
+                const qty = viewModel.quantity.$input.val();
+
+                /* Replace data attribute value */
+                this.$priceElement.attr('data-inventory-id', newSku);
+                viewModel.$addToCart.attr('data-cart-item-inventory-id', newSku);
+
+                if (newSku === this.mainProductSku && this.currentProductVariant) {
+                    this.$priceElement.text('The product option combination is not available');
+                } else {
+                    const hasPriceBeenSet = await applyAcumaticaPriceToElement(this.$priceElement[0], qty);
+                    const hasValidProductVariant = !!this.currentProductVariant;
+
+                    if (hasValidProductVariant && hasPriceBeenSet) {
+                        this.enableSubmitAndQtyFormInput(viewModel);
+                    }
+                }
+
+                // this.enableProductOptions();
+
+                if (!this.checkIsQuickViewChild($form)) {
+                    const $context = $view.find('.productView-info');
+                    modalFactory('[data-reveal]', { $context });
+                }
+            }
+        );
+    }
+
+    checkIsQuickViewChild($element) {
+        return !!$element.parents('.quickView').length;
     }
 
     showProductImage(image) {
@@ -310,10 +376,10 @@ export default class ProductDetails {
     /**
      *
      * Handle action when the shopper clicks on + / - for quantity
-     *
+     * b2b : this code will influnce our code
      */
     listenQuantityChange() {
-        this.$scope.on('click', '[data-quantity-change] button', event => {
+        this.$scope.on('click', '[data-quantity-change] button', async event => {
             event.preventDefault();
             const $target = $(event.currentTarget);
             const viewModel = this.getViewModel(this.$scope);
@@ -350,16 +416,29 @@ export default class ProductDetails {
             viewModel.quantity.$input.val(qty);
             // update text
             viewModel.quantity.$text.text(qty);
+
+            this.disableSubmitAndQtyFormInput(viewModel);
+    
+            await applyAcumaticaPriceToElement(this.$priceElement[0], qty);
+    
+            this.enableSubmitAndQtyFormInput(viewModel);
         });
 
-        // Prevent triggering quantity change when pressing enter
-        this.$scope.on('keypress', '.form-input--incrementTotal', event => {
-            // If the browser supports event.which, then use event.which, otherwise use event.keyCode
-            const x = event.which || event.keyCode;
-            if (x === 13) {
-                // Prevent default
-                event.preventDefault();
+        this.$scope.on('change', '.form-input--incrementTotal', async (event) => {
+            const viewModel = this.getViewModel(this.$scope);
+            const formInputWithChanges = event.target;
+            let newQty = Number(event.target.value);
+
+            if (newQty === 0) {
+                formInputWithChanges.value = 1;
+                newQty = 1;
             }
+
+            this.disableSubmitAndQtyFormInput(viewModel);
+
+            await applyAcumaticaPriceToElement(this.$priceElement[0], newQty);
+
+            this.enableSubmitAndQtyFormInput(viewModel);
         });
     }
 
@@ -368,10 +447,15 @@ export default class ProductDetails {
      * Add a product to cart
      *
      */
-    addProductToCart(event, form) {
+    async addProductToCart(event, form) {
+        const viewModel = this.getViewModel(this.$scope);
         const $addToCartBtn = $('#form-action-addToCart', $(event.target));
         const originalBtnVal = $addToCartBtn.val();
         const waitMessage = $addToCartBtn.data('waitMessage');
+
+        const productId = $addToCartBtn.data('cartItemProductId');
+        const sku = $addToCartBtn.data('cartItemInventoryId');
+        const qty = Number($('.form-input--incrementTotal', $(event.target)).val());
 
         // Do not do AJAX if browser doesn't support FormData
         if (window.FormData === undefined) {
@@ -387,9 +471,37 @@ export default class ProductDetails {
 
         this.$overlay.show();
 
+        this.disableSubmitAndQtyFormInput(viewModel);
+
+        // Remove line items from cart that are of the same product ID
+        await removeDuplicateCartProducts(sku);
+
         // Add item to cart
-        utils.api.cart.itemAdd(this.filterEmptyFilesFromForm(new FormData(form)), (err, response) => {
+        utils.api.cart.itemAdd(this.filterEmptyFilesFromForm(new FormData(form)), async (err, response) => {
+            const cartId = response.data.cart_id;
+            const cartItem = response.data.cart_item;
             const errorMessage = err || response.data.error;
+
+            try {
+                await updateCartItemWithAcumaticaPrice({
+                    cartId,
+                    lineItemId: cartItem.id,
+                    sku,
+                    productId: Number(productId),
+                    qty,
+                });
+            } catch (_cartUpdateError) {
+                console.log(_cartUpdateError)
+                swal({
+                    text: 'Something went wrong while adding the product to your cart.',
+                    type: 'error',
+                });
+
+                // Remove cart line item from cart in case something went wrong.
+                await asyncStencilUtils.api.cart.itemRemove(cartItem.id);
+            }
+
+            this.enableSubmitAndQtyFormInput(viewModel);
 
             $addToCartBtn
                 .val(originalBtnVal)
@@ -405,11 +517,9 @@ export default class ProductDetails {
 
                 return showAlertModal(tmp.textContent || tmp.innerText);
             }
-
             // Open preview modal and update content
             if (this.previewModal) {
                 this.previewModal.open();
-
                 this.updateCartContent(this.previewModal, response.data.cart_item.id);
             } else {
                 this.$overlay.show();
@@ -470,7 +580,6 @@ export default class ProductDetails {
             }
 
             modal.updateContent(response);
-
             // Update cart counter
             const $body = $('body');
             const $cartQuantity = $('[data-cart-quantity]', modal.$content);
@@ -763,5 +872,23 @@ export default class ProductDetails {
                     .removeClass('is-active');
             }
         }
+    }
+
+    enableSubmitAndQtyFormInput(viewModel) {
+        viewModel.$addToCart.removeAttr('disabled');
+        viewModel.$increments.each((_, el) => el.removeAttribute('disabled'));
+    }
+
+    disableSubmitAndQtyFormInput(viewModel) {
+        viewModel.$addToCart.attr('disabled', '');
+        viewModel.$increments.each((_, el) => el.setAttribute('disabled', ''));
+    }
+
+    enableProductOptions() {
+        this.$productOptionsFormControls.each((_, el) => el.removeAttribute('disabled'));
+    }
+
+    disableProductOptions() {
+        this.$productOptionsFormControls.each((_, el) => el.setAttribute('disabled', ''));
     }
 }

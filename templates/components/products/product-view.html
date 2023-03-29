@@ -7,68 +7,137 @@
             {{> components/common/alert-success success}}
         {{/if}}
     {{/each}}
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mt-4 mt-lg-5">
+          <section class="productView-details">
+              <div class="productView-product">
+                  <h1 class="h3" {{#if schema}}itemprop="name"{{/if}}>{{product.title}}</h1>
+                    <p class="productView-brand sm sku mt-2 mt-lg-3" data-product-sku>
+                      {{#if product.sku}}{{product.sku}}{{/if}}{{#if product.brand}} |
+                      <span itemprop="brand" itemscope itemtype="http://schema.org/Brand">
+                        <a href="{{product.brand.url}}"{{#if schema}} itemprop="url"{{/if}} class="sm sku"><span{{#if schema}} itemprop="name"{{/if}}>{{product.brand.name}}</span></a>
+                      </span>
+                      {{/if}}
+                    </p>
+                  <section class="productView-images" data-image-gallery>
+                      {{!--
+                          Note that these image sizes are coupled to image sizes used in /assets/js/theme/common/product-details.js
+                          for variant/rule image replacement
+                      --}}
+                      <figure class="productView-image"
+                              data-image-gallery-main
+                              {{#if product.main_image}}
+                              data-zoom-image="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size }}"
+                              {{/if}}
+                              >
+                          <div class="productView-img-container">
+                              {{!-- Remove the surrounding a-element if there is no main image. --}}
+                              {{#if product.main_image}}
+                                  <a href="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size}}"
+                                      target="_blank">
+                              {{/if}}
+                              {{> components/common/responsive-img
+                                  image=product.main_image
+                                  class="productView-image--default"
+                                  fallback_size=theme_settings.product_size
+                                  lazyload=theme_settings.lazyload_mode
+                                  default_image=theme_settings.default_image_product
+                                  otherAttributes="data-main-image"
+                              }}
+                              {{!-- Remove the surrounding a-element if there is no main image. --}}
+                              {{#if product.main_image}}
+                                  </a>
+                              {{/if}}
+                          </div>
+                      </figure>
+                      <ul class="productView-thumbnails"{{#gt product.images.length 5}} data-slick='{
+                              "infinite": false,
+                              "mobileFirst": true,
+                              "slidesToShow": 5,
+                              "slidesToScroll": 1
+                          }'{{/gt}}>
+                          {{#each product.images}}
+                              <li class="productView-thumbnail">
+                                  <a
+                                      class="productView-thumbnail-link"
+                                      href="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
+                                      data-image-gallery-item
+                                      data-image-gallery-new-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.product_size}}"
+                                      data-image-gallery-new-image-srcset="{{getImageSrcset this use_default_sizes=true}}"
+                                      data-image-gallery-zoom-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
+                                  >
+                                  {{> components/common/responsive-img
+                                      image=this
+                                      fallback_size=../theme_settings.productthumb_size
+                                      lazyload=../theme_settings.lazyload_mode
+                                  }}
+                                  </a>
+                              </li>
+                          {{/each}}
+                      </ul>
+                  </section>
 
-    <section class="productView-details">
-        <div class="productView-product">
-            <h1 class="productView-title" {{#if schema}}itemprop="name"{{/if}}>{{product.title}}</h1>
-            {{#if product.brand}}
-                <h2 class="productView-brand"{{#if schema}} itemprop="brand" itemscope itemtype="http://schema.org/Brand"{{/if}}>
-                    <a href="{{product.brand.url}}"{{#if schema}} itemprop="url"{{/if}}><span{{#if schema}} itemprop="name"{{/if}}>{{product.brand.name}}</span></a>
-                </h2>
-            {{/if}}
-            {{#if product.call_for_price}}
-                <p class="productView-price">
-                    <span>{{product.call_for_price}}</span>
-                </p>
-            {{/if}}
-            <div class="productView-price">
-                {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
-                    {{> components/products/price price=product.price schema_org=schema}}
-                {{else}}
-                    {{> components/common/login-for-pricing}}
-                {{/or}}
-            </div>
-            {{{region name="product_below_price"}}}
-            <div class="productView-rating"{{#if product.num_reviews '>' 0}}{{#if schema}} itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"{{/if}}{{/if}}>
-                {{#if settings.show_product_rating}}
-                    {{#if product.num_reviews '>' 0}}
-                        {{#if schema}}
-                            <meta itemprop="ratingValue" content="{{product.rating}}">
-                            <meta itemprop="ratingCount" content="{{product.num_reviews}}">
-                            <meta itemprop="reviewCount" content="{{product.num_reviews}}">
-                        {{/if}}
+                  <!-- b3 REMOVE BEGIN: it is a duplicate dom, remove for display b2b feature: add to quote & sl -->
+                  <!-- <div class="mt-5 d-block d-lg-none">
+                    <div class="bd-grey">
+                      <section class="productView-details">
+                        <div class="productView-options">
+                            {{#if product.release_date }}
+                                <p>{{product.release_date}}</p>
+                            {{/if}}
+                            <form class="form" method="post" action="{{product.cart_url}}" enctype="multipart/form-data"
+                                  data-cart-item-add>
+                                <input type="hidden" name="action" value="add">
+                                <input type="hidden" name="product_id" value="{{product.id}}"/>
+                                  <div data-product-option-change style="display:none;">
+                                      {{#each product.options}}
+                                          {{{dynamicComponent 'components/products/options'}}}
+                                      {{/each}}
+                                  </div>
+                                  <div class="form-field form-field--stock{{#unless product.stock_level}} u-hiddenVisually{{/unless}}">
+                                      <label class="form-label form-label--alternate">
+                                          {{lang 'products.current_stock'}}
+                                          <span data-product-stock>{{product.stock_level}}</span>
+                                      </label>
+                                  </div>
+                                  {{#if product.can_purchase}}
+                                      {{> components/products/add-to-cart}}
+                                  {{/if}}
+                                  {{#if product.out_of_stock}}
+                                      {{#if product.out_of_stock_message}}
+                                          {{> components/common/alert-error product.out_of_stock_message}}
+                                      {{else}}
+                                          {{> components/common/alert-error (lang 'products.sold_out')}}
+                                      {{/if}}
+                                  {{/if}}
+                            </form>
+                        </div>
+                      </section>
+                  </div>
+                  {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+                  <div class="wishlist mt-4">
+                    {{#if settings.show_wishlist}}
+                        {{> components/common/wishlist-dropdown}}
                     {{/if}}
-                    {{> components/products/ratings rating=product.rating}}
-                    <span class="productView-reviewLink">
-                        {{#if product.num_reviews '>' 0}}
-                            <a href="{{product.url}}#product-reviews">
-                                {{lang 'products.reviews.link_to_review' total=product.num_reviews}}
-                            </a>
-                        {{else}}
-                            {{lang 'products.reviews.link_to_review' total=product.num_reviews}}
-                        {{/if}}
-                    </span>
-                {{/if}}
-                {{#if settings.show_product_reviews}}
-                    <span class="productView-reviewLink">
-                        <a href="{{product.url}}{{#if is_ajax}}#write_review{{/if}}"
-                           {{#unless is_ajax }}data-reveal-id="modal-review-form"{{/unless}}>
-                           {{lang 'products.reviews.new'}}
-                        </a>
-                    </span>
-                    {{> components/products/modals/writeReview}}
-                {{/if}}
-            </div>
+                  </div>
+                  {{/or}}
+                </div> -->
+                <!-- b3 REMOVE END -->
+              </div>
+          </section>
+        </div>
+        <div class="col-lg-6 mt-3 mt-lg-5">
+          {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+          <div class="bd-grey">
+                            <div class="productView-price p-3 p-lg-4">
+                              {{!-- {{> components/products/price price=product.price schema_org=schema}} --}}
+                              {{> components/four13/price product_sku=product.sku}}
+                             </div>
+                             <hr>
+            {{{region name="product_below_price"}}}
             {{product.detail_messages}}
             <dl class="productView-info">
-                <dt class="productView-info-name sku-label"{{#unless product.sku}} style="display: none;"{{/unless}}>{{lang 'products.sku'}}</dt>
-                <dd class="productView-info-value" data-product-sku{{#if schema}} itemprop="sku"{{/if}}>{{product.sku}}</dd>
-                <dt class="productView-info-name upc-label"{{#unless product.upc}} style="display: none;"{{/unless}}>{{lang 'products.upc'}}</dt>
-                <dd class="productView-info-value" data-product-upc>{{product.upc}}</dd>
-                {{#if schema}}
-                    {{#if product.mpn}}<meta itemprop="mpn" content="{{product.mpn}}" />{{/if}}
-                    {{#if product.gtin}}<meta itemprop="gtin" content="{{product.gtin}}" />{{/if}}
-                {{/if}}
                 {{#if product.condition}}
                     <dt class="productView-info-name">{{lang 'products.condition'}}</dt>
                     <dd class="productView-info-value">{{product.condition}}</dd>
@@ -138,124 +207,65 @@
                 {{/if}}
 
                 {{#if settings.bulk_discount_enabled}}
-                    <div class="productView-info-bulkPricing">
-                        {{> components/products/bulk-discount-rates bulk_discount_rates=product.bulk_discount_rates}}
-                    </div>
+                    <div class="productView-info-bulkPricing">{{> components/products/bulk-discount-rates bulk_discount_rates=product.bulk_discount_rates}}</div>
                 {{/if}}
 
-                {{#if theme_settings.show_custom_fields_tabs '!==' true}}
-                    {{#each product.custom_fields}}
-                        <dt class="productView-info-name">{{name}}:</dt>
-                        <dd class="productView-info-value">{{{ sanitize value}}}</dd>
-                    {{/each}}
-                {{/if}}
             </dl>
+            {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+            <section class="productView-details">
+              <div class="productView-options">
+                  {{#if product.release_date }}
+                      <p>{{product.release_date}}</p>
+                  {{/if}}
+                  <form class="form" method="post" action="{{product.cart_url}}" enctype="multipart/form-data"
+                        data-cart-item-add>
+                      <input type="hidden" name="action" value="add">
+                      <input type="hidden" name="product_id" value="{{product.id}}"/>
+                        <div data-product-option-change style="display:none;">
+                            {{#each product.options}}
+                                {{{dynamicComponent 'components/products/options'}}}
+                            {{/each}}
+                        </div>
+                        <div class="pt-3 pl-3 pr-3 pl-lg-4 pr-lg-4 pt-lg-4 form-field form-field--stock{{#unless product.stock_level}} u-hiddenVisually{{/unless}}">
+                            <label class="form-label form-label--alternate">
+                                {{lang 'products.current_stock'}}
+                                <span data-product-stock>{{product.stock_level}}</span>
+                            </label>
+                        </div>
+                        {{#if product.can_purchase}}
+                            {{> components/products/add-to-cart}}
+                        {{/if}}
+                        {{#if product.out_of_stock}}
+                            {{#if product.out_of_stock_message}}
+                                {{> components/common/alert-error product.out_of_stock_message}}
+                            {{else}}
+                                {{> components/common/alert-error (lang 'products.sold_out')}}
+                            {{/if}}
+                        {{/if}}
+                  </form>
+              </div>
+            </section>
+            {{/or}}
         </div>
-    </section>
-
-    <section class="productView-images" data-image-gallery>
-        {{!--
-            Note that these image sizes are coupled to image sizes used in /assets/js/theme/common/product-details.js
-            for variant/rule image replacement
-        --}}
-        <figure class="productView-image"
-                data-image-gallery-main
-                {{#if product.main_image}}
-                data-zoom-image="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size }}"
-                {{/if}}
-                >
-            <div class="productView-img-container">
-                {{!-- Remove the surrounding a-element if there is no main image. --}}
-                {{#if product.main_image}}
-                    <a href="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size}}"
-                        target="_blank"{{#if schema}} itemprop="image"{{/if}}>
-                {{/if}}
-                {{> components/common/responsive-img
-                    image=product.main_image
-                    class="productView-image--default"
-                    fallback_size=theme_settings.product_size
-                    lazyload=theme_settings.lazyload_mode
-                    default_image=theme_settings.default_image_product
-                    otherAttributes="data-main-image"
-                }}
-                {{!-- Remove the surrounding a-element if there is no main image. --}}
-                {{#if product.main_image}}
-                    </a>
-                {{/if}}
-            </div>
-        </figure>
-        <ul class="productView-thumbnails"{{#gt product.images.length 5}} data-slick='{
-                "infinite": false,
-                "mobileFirst": true,
-                "slidesToShow": 5,
-                "slidesToScroll": 1
-            }'{{/gt}}>
-            {{#each product.images}}
-                <li class="productView-thumbnail">
-                    <a
-                        class="productView-thumbnail-link"
-                        href="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
-                        data-image-gallery-item
-                        data-image-gallery-new-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.product_size}}"
-                        data-image-gallery-new-image-srcset="{{getImageSrcset this use_default_sizes=true}}"
-                        data-image-gallery-zoom-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
-                    >
-                    {{> components/common/responsive-img
-                        image=this
-                        fallback_size=../theme_settings.productview_thumb_size
-                        lazyload=../theme_settings.lazyload_mode
-                    }}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    </section>
-
-    <section class="productView-details">
-        <div class="productView-options">
-            {{#if product.release_date }}
-                <p>{{product.release_date}}</p>
-            {{/if}}
-            <form class="form" method="post" action="{{product.cart_url}}" enctype="multipart/form-data"
-                  data-cart-item-add>
-                <input type="hidden" name="action" value="add">
-                <input type="hidden" name="product_id" value="{{product.id}}"/>
-                <div data-product-option-change style="display:none;">
-                    {{#each product.options}}
-                        {{{dynamicComponent 'components/products/options'}}}
-                    {{/each}}
-                </div>
-                <div class="form-field form-field--stock{{#unless product.stock_level}} u-hiddenVisually{{/unless}}">
-                    <label class="form-label form-label--alternate">
-                        {{lang 'products.current_stock'}}
-                        <span data-product-stock>{{product.stock_level}}</span>
-                    </label>
-                </div>
-                {{#if product.can_purchase}}
-                    {{> components/products/add-to-cart}}
-                {{/if}}
-                {{#if product.out_of_stock}}
-                    {{#if product.out_of_stock_message}}
-                        {{> components/common/alert-error product.out_of_stock_message}}
-                    {{else}}
-                        {{> components/common/alert-error (lang 'products.sold_out')}}
-                    {{/if}}
-                {{/if}}
-            </form>
-            {{#if settings.show_wishlist}}
-                {{> components/common/wishlist-dropdown}}
-            {{/if}}
+        {{else}}
+        {{> components/common/login-for-pricing}}
+        {{/or}}
+        {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+        <div class="wishlist mt-4">
+          {{#if settings.show_wishlist}}
+              {{> components/common/wishlist-dropdown}}
+          {{/if}}
         </div>
-        {{> components/common/share}}
-    </section>
-
-    <article class="productView-description"{{#if schema}} itemprop="description"{{/if}}>
+        {{/or}}
+        <article class="productView-description mt-5 pb-120"{{#if schema}} itemprop="description"{{/if}}>
         {{#if theme_settings.show_product_details_tabs}}
             {{> components/products/description-tabs}}
         {{else}}
             {{> components/products/description}}
         {{/if}}
-    </article>
+        </article>
+      </div>
+    </div>
 </div>
 
 <div id="previewModal" class="modal modal--large" data-reveal>

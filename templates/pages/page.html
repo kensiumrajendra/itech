@@ -1,11 +1,15 @@
+---
+blog:
+    recent_posts:
+        limit: 3
+---
 {{#partial "page"}}
 
-{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
-
-<main class="page">
+<main class="page container">
     {{#unless theme_settings.hide_page_heading }}
         <h1 class="page-heading">{{ page.title }}</h1>
     {{/unless}}
+    <h1 class="page-heading"></h1>
 
     {{#if page.sub_pages}}
     <nav class="navBar navBar--sub">
@@ -17,15 +21,11 @@
     </nav>
     {{/if}}
 
-    {{{region name="page_builder_content"}}}
-
-    <div class="page-content page-content--centered">
-        {{#replace '%%Syndicate%%' page.content}}
+    {{#replace '%%Syndicate%%' page.content}}
             {{> components/page/rss_feed}}
         {{else}}
-            <p>{{{page.content}}}</p>
+            {{{page.content}}}
         {{/replace}}
-    </div>
 
     {{#if page.feed}}
         <ul>
@@ -38,6 +38,28 @@
         </ul>
     {{/if}}
 </main>
+{{#if page.title '===' 'About Us'}}
+    <div class="latest-news pt-120 pb-120">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+            <h2 class="text-center">Latest News</h2>
+            <div class="news">
+              {{#each blog.recent_posts}}
+              <div class="news-item">
+                <p class="eleven red mb-1 b-black tu">{{date_published}}</p>
+                <a href="{{url}}"><h3 class="mb-3 reg">{{title}}</h3></a>
+              </div>
+              {{/each}}
+            </div>
+            <div class="text-center">
+              <a href="/news/wholesale-medical-supplies/" class="button button--primary button--large mt-4">See All News</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{{/if}}
 
 {{/partial}}
 

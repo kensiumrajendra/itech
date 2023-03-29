@@ -22,23 +22,20 @@
     <div class="listItem-body">
         <div class="listItem-content">
             <div class="listItem-details">
-                {{#if show_rating}}
-                    <p class="listItem-rating">{{> components/products/ratings rating=rating}}</p>
-                {{/if}}
                 {{#if brand.name}}
                 <p class="listItem-brand">{{brand.name}}</p>
                 {{/if}}
                 <h4 class="listItem-title">
                     <a href="{{url}}" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>{{name}}</a>
                 </h4>
-                {{#if summary}}
-                    <p>{{{summary}}}</p>
-                {{/if}}
             </div>
             <div class="listItem-actions">
                 {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
                     {{#if price}}
-                        <div class="listItem-price">{{> components/products/price price=price}}</div>
+                        <div class="listItem-price">
+                            {{!-- {{> components/products/price price=price}} --}}
+                            {{> components/four13/price product_sku=sku}}
+                        </div>
                     {{/if}}
                     {{#if show_cart_action}}
                         {{#if has_options}}

@@ -13,6 +13,8 @@
             {{#unless required}}
                 <li class="productOptions-list-item">
                     <input class="form-radio"
+                        data-label-name="{{../this.display_name}}"
+                        data-title="{{label}}"
                            type="radio"
                            name="attribute[{{id}}]"
                            value="0"
@@ -34,6 +36,8 @@
                     {{/if}}
                     <div class="productOptions-list-item-content">
                         <input
+                            data-label-name="{{../this.display_name}}"
+                            data-title="{{label}}"
                             class="form-radio"
                             type="radio"
                             name="attribute[{{../id}}]"
@@ -52,6 +56,8 @@
     {{else}}
         {{#unless required}}
         <input class="form-radio"
+            data-label-name="{{../this.display_name}}"
+            data-title="{{label}}"
                type="radio"
                name="attribute[{{id}}]"
                value="0"
@@ -61,6 +67,8 @@
         {{/unless}}
         {{#each values}}
             <input
+            data-label-name="{{../this.display_name}}"
+            data-title="{{label}}"
                 class="form-radio"
                 type="radio"
                 name="attribute[{{../id}}]"

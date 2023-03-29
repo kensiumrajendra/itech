@@ -3,9 +3,9 @@
     <div
         class="accordion-navigation toggleLink {{#unless ../start_collapsed }} is-open {{/unless}}"
         role="button"
-        data-collapsible="#facetedSearch-content--{{#replace '&' (hyphenate facet) }}{{/replace}}">
+        data-collapsible="#facetedSearch-content--{{hyphenate facet }}">
         <h5 class="accordion-title">
-            {{ title }}
+            {{{ title }}}
         </h5>
 
         <div class="accordion-navigation-actions">
@@ -21,8 +21,8 @@
         </div>
     </div>
 
-    <div id="facetedSearch-content--{{#replace '&' (hyphenate facet) }}{{/replace}}" class="accordion-content {{#unless ../start_collapsed }} is-open {{/unless}}">
-        <ul id="facetedSearch-navList--{{#replace '&' (hyphenate facet) }}{{/replace}}" class="navList" data-facet="{{facet}}" data-has-more-results="{{ has_more_results }}">
+    <div id="facetedSearch-content--{{hyphenate facet }}" class="accordion-content {{#unless ../start_collapsed }} is-open {{/unless}}">
+        <ul id="facetedSearch-navList--{{hyphenate facet }}" class="navList" data-facet="{{facet}}" data-has-more-results="{{ has_more_results }}">
             {{#each items}}
                 <li class="navList-item">
                     <a
@@ -31,10 +31,10 @@
                         rel="nofollow"
                         data-id="{{ id }}"
                         data-faceted-search-facet>
-                        {{{ sanitize title }}}
+                        {{{ title }}}
                         {{#if ../show_product_counts}}
                             {{#if count}}
-                                <span>({{ count }})</span>
+                                <!--<span>({{ count }})</span>-->
                             {{/if}}
                         {{/if}}
                     </a>
@@ -46,7 +46,7 @@
         </ul>
 
         {{#if show_more_toggle}}
-            <a href="#facetedSearch-navList--{{#replace '&' (hyphenate facet) }}{{/replace}}" role="button" class="toggleLink">
+            <a href="#facetedSearch-navList--{{hyphenate facet }}" role="button" class="toggleLink">
                 <span class="toggleLink-text toggleLink-text--off">{{lang 'search.faceted.show-more'}}</span>
             </a>
         {{/if}}

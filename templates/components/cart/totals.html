@@ -21,14 +21,7 @@
             </div>
         </li>
     {{/if}}
-    {{#if cart.shipping_handling.show_estimator}}
-        <li class="cart-total">
-            <div class="cart-total-label">
-                <strong>{{lang 'cart.checkout.shipping'}}:</strong>
-            </div>
-            {{> components/cart/shipping-estimator cart.shipping_handling}}
-        </li>
-    {{/if}}
+   
     {{#each cart.taxes}}
         <li class="cart-total">
             <div class="cart-total-label">
@@ -47,28 +40,6 @@
             <div class="cart-total-value">
                 {{cart.discount.formatted}}
             </div>
-        </li>
-    {{/if}}
-    {{#if cart.coupons}}
-        {{#each cart.coupons}}
-            <li class="cart-total">
-                <div class="cart-total-label">
-                    <strong>{{lang 'cart.coupons.code_label' code=code}}</strong>
-                    <div>
-                        <a href="{{remove_url}}">{{lang 'cart.coupons.remove'}}</a>
-                    </div>
-                </div>
-                <div class="cart-total-value">
-                    <span>{{discount.formatted}}</span>
-                </div>
-            </li>
-        {{/each}}
-    {{else}}
-        <li class="cart-total">
-            <div class="cart-total-label">
-                <strong>{{lang 'cart.coupon_code'}}:</strong>
-            </div>
-            {{> components/cart/coupon-input}}
         </li>
     {{/if}}
     {{#if settings.gift_certificates_enabled}}

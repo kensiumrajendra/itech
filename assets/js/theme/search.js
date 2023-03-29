@@ -8,6 +8,11 @@ import collapsibleFactory from './common/collapsible';
 import 'jstree';
 import nod from './common/nod';
 
+import {
+    applyAcumaticaPriceToElements,
+    overrideAddToCartButtons,
+} from './four13/tranzetta';
+
 export default class Search extends CatalogPage {
     formatCategoryTreeForJSTree(node) {
         const nodeData = {
@@ -33,7 +38,11 @@ export default class Search extends CatalogPage {
         return nodeData;
     }
 
-    showProducts(navigate = true) {
+    showProducts() {
+        const url = urlUtils.replaceParams(window.location.href, {
+            section: 'product',
+        });
+
         this.$productListingContainer.removeClass('u-hiddenVisually');
         this.$facetedSearchContainer.removeClass('u-hiddenVisually');
         this.$contentResultsContainer.addClass('u-hiddenVisually');
@@ -44,19 +53,14 @@ export default class Search extends CatalogPage {
         $('[data-product-results-toggle]').removeClass('navBar-action');
         $('[data-product-results-toggle]').addClass('navBar-action-color--active');
 
-        if (!navigate) {
-            return;
-        }
-
-        const searchData = $('#search-results-product-count span').data();
-        const url = (searchData.count > 0) ? searchData.url : urlUtils.replaceParams(searchData.url, {
-            page: 1,
-        });
-
         urlUtils.goToUrl(url);
     }
 
-    showContent(navigate = true) {
+    showContent() {
+        const url = urlUtils.replaceParams(window.location.href, {
+            section: 'content',
+        });
+
         this.$contentResultsContainer.removeClass('u-hiddenVisually');
         this.$productListingContainer.addClass('u-hiddenVisually');
         this.$facetedSearchContainer.addClass('u-hiddenVisually');
@@ -66,15 +70,6 @@ export default class Search extends CatalogPage {
 
         $('[data-content-results-toggle]').removeClass('navBar-action');
         $('[data-content-results-toggle]').addClass('navBar-action-color--active');
-
-        if (!navigate) {
-            return;
-        }
-
-        const searchData = $('#search-results-content-count span').data();
-        const url = (searchData.count > 0) ? searchData.url : urlUtils.replaceParams(searchData.url, {
-            page: 1,
-        });
 
         urlUtils.goToUrl(url);
     }
@@ -112,9 +107,9 @@ export default class Search extends CatalogPage {
         });
 
         if (this.$productListingContainer.find('li.product').length === 0 || url.query.section === 'content') {
-            this.showContent(false);
+            this.showContent();
         } else {
-            this.showProducts(false);
+            this.showProducts();
         }
 
         const validator = this.initValidation($searchForm)
@@ -198,20 +193,16 @@ export default class Search extends CatalogPage {
 
     initFacetedSearch() {
         const $productListingContainer = $('#product-listing-container');
-        const $contentListingContainer = $('#search-results-content');
         const $facetedSearchContainer = $('#faceted-search-container');
         const $searchHeading = $('#search-results-heading');
         const $searchCount = $('#search-results-product-count');
-        const $contentCount = $('#search-results-content-count');
         const productsPerPage = this.context.searchProductsPerPage;
         const requestOptions = {
             template: {
                 productListing: 'search/product-listing',
-                contentListing: 'search/content-listing',
                 sidebar: 'search/sidebar',
                 heading: 'search/heading',
                 productCount: 'search/product-count',
-                contentCount: 'search/content-count',
             },
             config: {
                 product_results: {
@@ -221,26 +212,19 @@ export default class Search extends CatalogPage {
             showMore: 'search/show-more',
         };
 
-        this.facetedSearch = new FacetedSearch(requestOptions, (content) => {
+        this.facetedSearch = new FacetedSearch(requestOptions, async (content) => {
+            $productListingContainer.html(content.productListing);
+            $facetedSearchContainer.html(content.sidebar);
             $searchHeading.html(content.heading);
-
-            const url = Url.parse(window.location.href, true);
-            if (url.query.section === 'content') {
-                $contentListingContainer.html(content.contentListing);
-                $contentCount.html(content.contentCount);
-                this.showContent(false);
-            } else {
-                $productListingContainer.html(content.productListing);
-                $facetedSearchContainer.html(content.sidebar);
-                $searchCount.html(content.productCount);
-                this.showProducts(false);
-            }
-
+            $searchCount.html(content.productCount);
             $('body').triggerHandler('compareReset');
 
             $('html, body').animate({
                 scrollTop: 0,
             }, 100);
+
+            await applyAcumaticaPriceToElements({ context: $productListingContainer[0] })
+            overrideAddToCartButtons({ context: $productListingContainer[0] });
         });
     }
 

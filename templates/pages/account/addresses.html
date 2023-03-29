@@ -3,16 +3,14 @@
     <h2 class="page-heading">{{lang 'account.addresses.heading' }}</h2>
     {{> components/account/navigation account_page='addresses'}}
 
-    <div class="account account--fixedLarge">
-        <div class="account-body">
-            {{#if customer.error}}
-                {{>components/common/alert-error customer.error}}
-            {{/if}}
-            {{#if customer.success}}
-                {{>components/common/alert-success customer.success}}
-            {{/if}}
-            {{> components/account/address-list }}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="account">
+                {{> components/account/address-list }}
+            </div>
         </div>
     </div>
+</div>
 {{/partial}}
 {{> layout/base}}
